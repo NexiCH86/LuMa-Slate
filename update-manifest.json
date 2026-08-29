@@ -1,16 +1,17 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.10.0",
+  "latestUiVersion": "0.10.1",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T18:00:00+02:00",
+  "publishedAt": "2026-08-30T00:30:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Reader Pro: native Android PDF rendering with real page count, zoom and persistent reading progress",
-    "Annotation Engine: pen and marker overlay with per-page persistent ink, undo and clear controls",
-    "Work Pro: Linear project issue mirror with direct issue deep links and secure backend-ready connector architecture",
-    "LuMa Sync Engine: local-first workspace snapshots, offline queue and remote endpoint foundation for LuisServer",
-    "Shell 1.1.0 adds native PDF renderer and safe external URL bridge",
-    "No Linear credentials or service tokens are stored on the BOOX device"
+    "Reader Pro 0.10.1: Fit Page, Fit Width, 100 percent and manual zoom down to 20 percent",
+    "Reader fullscreen mode hides LuMa Slate chrome and maximizes PDF reading area",
+    "Removed obsolete fixed 132-136 reader sidebar from native PDF view",
+    "Pen and marker now support selectable thickness and E-Ink-friendly colors",
+    "Pen/marker settings persist locally and new strokes store tool, width, color and opacity",
+    "Removed obsolete Reader Pro 0.9 native-rendering notice",
+    "Existing Reader, Work Pro, Linear foundation and LuMa Sync features remain available"
   ]
 }
