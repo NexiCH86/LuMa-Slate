@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0c3c3f" />
+  <meta name="color-scheme" content="light" />
+  <title>LuMa Slate</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><div class="brandmark">LS</div><div><div class="brand-title">LuMa Slate</div><div class="brand-subtitle">ENGINEERING WORKSPACE</div></div></div>
+      <div class="status"><span>Wi‑Fi</span><span>78%</span><span id="clock">21:34</span></div>
+    </header>
+
+    <main class="content">
+      <section class="screen active" data-screen="home">
+        <div class="hero"><div><div class="eyebrow">GOOD EVENING,</div><h1>LUIS</h1></div><div class="hero-meta"><div><strong>29 AUG 2026</strong><span>Saturday</span></div><div><strong>78%</strong><span>Battery</span></div><div><strong>62 GB</strong><span>Free</span></div></div></div>
+        <div class="tile-grid">
+          <button class="tile" data-go="library"><span class="icon">▥</span><strong>LIBRARY</strong><b>247</b><small>Documents</small></button>
+          <button class="tile" data-go="work"><span class="icon">▰</span><strong>WORK</strong><b>12</b><small>Projects</small></button>
+          <button class="tile" data-go="ai"><span class="icon">◉</span><strong>LuMa AI</strong><b class="accent">ONLINE</b><small>Assistant</small></button>
+          <button class="tile" data-go="notes"><span class="icon">✎</span><strong>NOTES</strong><b>38</b><small>Notes</small></button>
+          <button class="tile"><span class="icon">▤</span><strong>READER</strong><small>Continue reading</small></button>
+          <button class="tile"><span class="icon">↥</span><strong>SYNC</strong><b>OK</b><small>LuisServer</small></button>
+          <button class="tile"><span class="icon">⚙</span><strong>TOOLS</strong><b>8</b><small>Applications</small></button>
+          <button class="tile"><span class="icon">◎</span><strong>FOCUS</strong><small>Distraction free</small></button>
+        </div>
+        <section class="panel"><div class="panel-heading"><h2>CONTINUE</h2><button data-go="library">See all ›</button></div>
+          <div class="doc-row"><span>▤</span><div><strong>SIA 382/1 – Lüftungs- und Klimaanlagen</strong><small>Last viewed today</small></div><em>Page 132</em></div>
+          <div class="doc-row"><span>▤</span><div><strong>Python Course – Advanced Programming</strong><small>Last viewed yesterday</small></div><em>Page 45</em></div>
+          <div class="doc-row"><span>▤</span><div><strong>BIM Meeting Notes</strong><small>28.08.2026 – Coordination</small></div><em>Page 3</em></div>
+        </section>
+        <section class="panel"><h2>QUICK ACCESS</h2><div class="quick-grid"><button>▤<span>Reader</span></button><button>□<span>Files</span></button><button>◉<span>Browser</span></button><button>▣<span>Remote</span></button><button>▦<span>Calculator</span></button><button>GH<span>GitHub</span></button></div></section>
+      </section>
+
+      <section class="screen" data-screen="library">
+        <div class="section-head library-head"><div><span class="eyebrow">YOUR KNOWLEDGE</span><h1>Library</h1></div><div class="library-stat"><strong>247</strong><span>documents</span></div></div>
+        <div class="library-toolbar"><label class="searchbox library-search">⌕ <input id="librarySearch" placeholder="Dokumente durchsuchen…" /></label><button class="toolbar-button">☷ Filter</button></div>
+        <div class="library-tabs"><button class="active" data-library-tab="all">Alle</button><button data-library-tab="recent">Zuletzt</button><button data-library-tab="favorites">Favoriten</button><button data-library-tab="offline">Offline</button></div>
+        <div class="category-grid library-categories">
+          <button data-library-category="norms"><div><span class="category-icon">▤</span><strong>Normen & Richtlinien</strong></div><span>45</span></button>
+          <button data-library-category="technical"><div><span class="category-icon">▥</span><strong>Fachbücher</strong></div><span>68</span></button>
+          <button data-library-category="manuals"><div><span class="category-icon">□</span><strong>Manuals</strong></div><span>32</span></button>
+          <button data-library-category="courses"><div><span class="category-icon">◇</span><strong>Kurse</strong></div><span>29</span></button>
+        </div>
+        <section class="panel library-panel">
+          <div class="panel-heading library-panel-heading"><div><h2 id="libraryListTitle">ALLE DOKUMENTE</h2><span id="libraryResultCount">8 angezeigt</span></div><div class="view-switch"><button class="selected">☷</button><button>▦</button></div></div>
+          <div id="libraryDocuments" class="library-documents">
+            <button class="library-doc" data-title="SIA 382/1 Lüftungs- und Klimaanlagen" data-category="norms" data-favorites="true" data-offline="true" data-recent="true"><span class="file-badge">PDF</span><div class="doc-copy"><strong>SIA 382/1 – Lüftungs- und Klimaanlagen</strong><small>Normen & Richtlinien · 356 Seiten</small><span class="progress"><i style="width:38%"></i></span></div><div class="doc-meta"><span>Seite 132</span><b>★</b></div></button>
+            <button class="library-doc" data-title="SIA 181 Schallschutz im Hochbau" data-category="norms" data-favorites="true" data-offline="true" data-recent="false"><span class="file-badge">PDF</span><div class="doc-copy"><strong>SIA 181 – Schallschutz im Hochbau</strong><small>Normen & Richtlinien · 96 Seiten</small></div><div class="doc-meta"><span>Offline</span><b>★</b></div></button>
+            <button class="library-doc" data-title="Eurocode 3 Design of steel structures" data-category="norms" data-favorites="false" data-offline="false" data-recent="true"><span class="file-badge">PDF</span><div class="doc-copy"><strong>Eurocode 3</strong><small>Design of steel structures · 214 Seiten</small></div><div class="doc-meta"><span>Heute</span><b>☆</b></div></button>
+            <button class="library-doc" data-title="Building Physics Heat Air and Moisture" data-category="technical" data-favorites="true" data-offline="true" data-recent="true"><span class="file-badge">BOOK</span><div class="doc-copy"><strong>Building Physics</strong><small>Heat, Air and Moisture · Fachbuch</small><span class="progress"><i style="width:61%"></i></span></div><div class="doc-meta"><span>61%</span><b>★</b></div></button>
+            <button class="library-doc" data-title="Advanced Python Programming" data-category="courses" data-favorites="false" data-offline="true" data-recent="true"><span class="file-badge">COURSE</span><div class="doc-copy"><strong>Advanced Python Programming</strong><small>LuMa Academy · Kursunterlagen</small><span class="progress"><i style="width:27%"></i></span></div><div class="doc-meta"><span>Kapitel 4</span><b>☆</b></div></button>
+            <button class="library-doc" data-title="BOOX Tab Ultra C Pro User Guide" data-category="manuals" data-favorites="false" data-offline="true" data-recent="false"><span class="file-badge">DOC</span><div class="doc-copy"><strong>BOOX Tab Ultra C Pro – User Guide</strong><small>Manuals · Gerätehandbuch</small></div><div class="doc-meta"><span>Offline</span><b>☆</b></div></button>
+            <button class="library-doc" data-title="Revit MEP Best Practices" data-category="technical" data-favorites="true" data-offline="false" data-recent="false"><span class="file-badge">BOOK</span><div class="doc-copy"><strong>Revit MEP Best Practices</strong><small>Fachbücher · BIM / MEP</small></div><div class="doc-meta"><span>Cloud</span><b>★</b></div></button>
+            <button class="library-doc" data-title="Lüftungskonzept MFH Ausführung" data-category="manuals" data-favorites="false" data-offline="true" data-recent="true"><span class="file-badge">PDF</span><div class="doc-copy"><strong>Lüftungskonzept MFH – Ausführung</strong><small>Projektunterlagen · 82 Seiten</small><span class="progress"><i style="width:33%"></i></span></div><div class="doc-meta"><span>Seite 27</span><b>☆</b></div></button>
+          </div>
+          <div id="libraryEmpty" class="library-empty" hidden><strong>Keine Dokumente gefunden.</strong><span>Suche oder Filter anpassen.</span></div>
+        </section>
+        <section class="panel library-sync-card"><div><span class="sync-dot"></span><div><strong>LuMa Sync</strong><small>LuisServer · zuletzt synchronisiert vor 2 Min.</small></div></div><button>Jetzt synchronisieren</button></section>
+      </section>
+
+      <section class="screen" data-screen="work"><div class="section-head"><div><span class="eyebrow">PROJECTS AND TASKS</span><h1>Work</h1></div><span class="count">12 projects</span></div><div class="project-list"><article><div><strong>BOG Fusion</strong><small>BIM Coordination Platform</small></div><span>62%</span></article><article><div><strong>LuMa AI</strong><small>Local AI Infrastructure</small></div><span>48%</span></article><article><div><strong>LuMa Slate</strong><small>ONYX Workspace</small></div><span>22%</span></article><article><div><strong>LuMa Air</strong><small>Engineering Tools</small></div><span>36%</span></article></div></section>
+      <section class="screen" data-screen="ai"><div class="section-head ai-head"><div><span class="eyebrow">YOUR AI ASSISTANT</span><h1>LuMa AI</h1></div><div class="mode-switch"><button class="selected">Online</button><button>Local</button><button>Offline</button></div></div><div class="chat-card"><div class="message user">Fasse mir die wichtigsten Punkte aus dem geöffneten Dokument zusammen.</div><div class="message assistant"><strong>LuMa AI</strong><p>Das Dokument behandelt die Grundlagen, Anforderungen und Nachweise der ausgewählten technischen Planung.</p></div></div><div class="composer"><input placeholder="Ask LuMa AI anything…" /><button>➤</button></div></section>
+      <section class="screen" data-screen="notes"><div class="section-head"><div><span class="eyebrow">HANDWRITTEN & DIGITAL</span><h1>Notes</h1></div><button class="primary">+ New note</button></div><div class="notes-grid"><article><span>28.08.2026</span><strong>BIM Meeting Notes</strong><p>Coordination, open issues, decisions…</p></article><article><span>27.08.2026</span><strong>Steel Connection Sketch</strong><p>Handwritten engineering sketch</p></article><article><span>25.08.2026</span><strong>Client Call</strong><p>Follow-up and next steps</p></article><article><span>24.08.2026</span><strong>Concept Sketch</strong><p>LuMa Slate ideas</p></article></div></section>
+    </main>
+
+    <nav class="bottom-nav"><button class="active" data-go="home">⌂<span>Home</span></button><button data-go="library">▥<span>Library</span></button><button data-go="work">▰<span>Work</span></button><button data-go="ai">◉<span>LuMa AI</span></button><button data-go="notes">✎<span>Notes</span></button></nav>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
