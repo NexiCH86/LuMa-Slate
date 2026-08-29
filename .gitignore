@@ -4,3 +4,8 @@ Thumbs.db
 .idea/
 node_modules/
 dist/
+*.jks
+*.keystore
+*.p12
+*.pem
+local-signing/
