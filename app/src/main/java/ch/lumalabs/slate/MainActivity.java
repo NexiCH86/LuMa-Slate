@@ -5,15 +5,19 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.pdf.PdfRenderer;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.os.StatFs;
 import android.provider.OpenableColumns;
+import android.util.Base64;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -35,12 +39,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends Activity {
-    private static final String SHELL_VERSION = "1.0.1";
-    private static final String BUNDLED_UI_VERSION = "0.8.0";
+    private static final String SHELL_VERSION = "1.1.0";
+    private static final String BUNDLED_UI_VERSION = "0.10.0";
     private static final String BASE_URL = "https://raw.githubusercontent.com/NexiCH86/LuMa-Slate/main/";
     private static final int REQUEST_OPEN_DOCUMENT = 2048;
     private static final List<String> UI_FILES = Arrays.asList(
-            "index.html", "styles.css", "app.js", "manifest.webmanifest", "update-manifest.json"
+            "index.html", "styles.css", "app.js", "features-v010.js", "manifest.webmanifest", "update-manifest.json"
     );
 
     private WebView webView;
@@ -54,11 +58,9 @@ public class MainActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().setStatusBarColor(Color.rgb(7, 17, 23));
         getWindow().setNavigationBarColor(Color.rgb(244, 246, 248));
-
         uiDir = new File(getFilesDir(), "luma-ui");
         if (!uiDir.exists()) uiDir.mkdirs();
         ensureBundledUi();
-
         webView = new WebView(this);
         setContentView(webView);
         configureWebView();
@@ -86,10 +88,20 @@ public class MainActivity extends Activity {
                 String scheme = uri.getScheme();
                 if ("file".equalsIgnoreCase(scheme) || "content".equalsIgnoreCase(scheme)) return false;
                 if ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme)) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                    openExternal(uri.toString());
                     return true;
                 }
                 return false;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                File feature = new File(uiDir, "features-v010.js");
+                if (!feature.exists()) return;
+                String src = Uri.fromFile(feature).toString();
+                String js = "(function(){if(document.getElementById('luma-v010-script'))return;var s=document.createElement('script');s.id='luma-v010-script';s.src=" + JSONObject.quote(src) + ";document.body.appendChild(s);})();";
+                view.evaluateJavascript(js, null);
             }
         });
     }
@@ -152,15 +164,11 @@ public class MainActivity extends Activity {
                     emitEvent("luma-update-status", d);
                     return;
                 }
-
                 updateStatus = "downloading";
                 File staging = new File(getFilesDir(), "luma-ui-staging");
                 deleteRecursive(staging);
                 staging.mkdirs();
-                for (String name : UI_FILES) {
-                    downloadFile(BASE_URL + name + "?ts=" + System.currentTimeMillis(), new File(staging, name));
-                }
-
+                for (String name : UI_FILES) downloadFile(BASE_URL + name + "?ts=" + System.currentTimeMillis(), new File(staging, name));
                 File old = new File(getFilesDir(), "luma-ui-old");
                 deleteRecursive(old);
                 if (uiDir.exists()) uiDir.renameTo(old);
@@ -173,10 +181,7 @@ public class MainActivity extends Activity {
                 updateStatus = "error";
                 if (manual) {
                     JSONObject d = new JSONObject();
-                    try {
-                        d.put("status", updateStatus);
-                        d.put("message", e.getClass().getSimpleName());
-                    } catch (Exception ignored) { }
+                    try { d.put("status", updateStatus); d.put("message", e.getClass().getSimpleName()); } catch (Exception ignored) { }
                     emitEvent("luma-update-error", d);
                 }
             }
@@ -188,15 +193,11 @@ public class MainActivity extends Activity {
         c.setConnectTimeout(7000);
         c.setReadTimeout(10000);
         c.setRequestProperty("User-Agent", "LuMa-Slate/" + SHELL_VERSION);
-        try (InputStream in = new BufferedInputStream(c.getInputStream());
-             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            byte[] buffer = new byte[8192];
-            int read;
+        try (InputStream in = new BufferedInputStream(c.getInputStream()); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[8192]; int read;
             while ((read = in.read(buffer)) != -1) out.write(buffer, 0, read);
             return new String(out.toByteArray(), StandardCharsets.UTF_8);
-        } finally {
-            c.disconnect();
-        }
+        } finally { c.disconnect(); }
     }
 
     private void downloadFile(String url, File target) throws Exception {
@@ -204,39 +205,29 @@ public class MainActivity extends Activity {
         c.setConnectTimeout(7000);
         c.setReadTimeout(15000);
         c.setRequestProperty("User-Agent", "LuMa-Slate/" + SHELL_VERSION);
-        try (InputStream in = new BufferedInputStream(c.getInputStream());
-             BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(target))) {
-            byte[] buffer = new byte[16384];
-            int read;
+        try (InputStream in = new BufferedInputStream(c.getInputStream()); BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(target))) {
+            byte[] buffer = new byte[16384]; int read;
             while ((read = in.read(buffer)) != -1) out.write(buffer, 0, read);
-        } finally {
-            c.disconnect();
-        }
+        } finally { c.disconnect(); }
     }
 
     private int compareVersions(String a, String b) {
-        String[] aa = a.split("\\.");
-        String[] bb = b.split("\\.");
+        String[] aa = a.split("\\."); String[] bb = b.split("\\.");
         int n = Math.max(aa.length, bb.length);
         for (int i = 0; i < n; i++) {
-            int av = i < aa.length ? parseInt(aa[i]) : 0;
-            int bv = i < bb.length ? parseInt(bb[i]) : 0;
+            int av = i < aa.length ? parseInt(aa[i]) : 0; int bv = i < bb.length ? parseInt(bb[i]) : 0;
             if (av != bv) return Integer.compare(av, bv);
         }
         return 0;
     }
 
     private int parseInt(String s) {
-        try { return Integer.parseInt(s.replaceAll("[^0-9].*$", "")); }
-        catch (Exception e) { return 0; }
+        try { return Integer.parseInt(s.replaceAll("[^0-9].*$", "")); } catch (Exception e) { return 0; }
     }
 
     private void deleteRecursive(File f) {
         if (f == null || !f.exists()) return;
-        if (f.isDirectory()) {
-            File[] children = f.listFiles();
-            if (children != null) for (File child : children) deleteRecursive(child);
-        }
+        if (f.isDirectory()) { File[] children = f.listFiles(); if (children != null) for (File child : children) deleteRecursive(child); }
         f.delete();
     }
 
@@ -248,13 +239,9 @@ public class MainActivity extends Activity {
             int scale = battery != null ? battery.getIntExtra(BatteryManager.EXTRA_SCALE, 100) : 100;
             int pct = level >= 0 && scale > 0 ? Math.round(level * 100f / scale) : -1;
             int plugged = battery != null ? battery.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) : 0;
-            o.put("batteryPercent", pct);
-            o.put("charging", plugged != 0);
-
+            o.put("batteryPercent", pct); o.put("charging", plugged != 0);
             StatFs stat = new StatFs(getFilesDir().getAbsolutePath());
-            o.put("storageFreeBytes", stat.getAvailableBytes());
-            o.put("storageTotalBytes", stat.getTotalBytes());
-
+            o.put("storageFreeBytes", stat.getAvailableBytes()); o.put("storageTotalBytes", stat.getTotalBytes());
             ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
             Network network = cm != null ? cm.getActiveNetwork() : null;
             NetworkCapabilities caps = network != null && cm != null ? cm.getNetworkCapabilities(network) : null;
@@ -266,8 +253,7 @@ public class MainActivity extends Activity {
                 else if (caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) type = "Ethernet";
                 else if (connected) type = "Online";
             }
-            o.put("networkConnected", connected);
-            o.put("networkType", type);
+            o.put("networkConnected", connected); o.put("networkType", type);
             o.put("androidVersion", android.os.Build.VERSION.RELEASE);
             o.put("deviceModel", android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL);
         } catch (Exception ignored) { }
@@ -277,12 +263,8 @@ public class MainActivity extends Activity {
     private JSONObject updateInfo() {
         JSONObject o = new JSONObject();
         try {
-            o.put("status", updateStatus);
-            o.put("lastCheck", lastUpdateCheck);
-            o.put("source", BASE_URL);
-            o.put("channel", "stable");
-            o.put("uiVersion", getUiVersion());
-            o.put("shellVersion", SHELL_VERSION);
+            o.put("status", updateStatus); o.put("lastCheck", lastUpdateCheck); o.put("source", BASE_URL);
+            o.put("channel", "stable"); o.put("uiVersion", getUiVersion()); o.put("shellVersion", SHELL_VERSION);
         } catch (Exception ignored) { }
         return o;
     }
@@ -292,10 +274,7 @@ public class MainActivity extends Activity {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("*/*");
-            intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{
-                    "application/pdf", "application/epub+zip", "text/plain",
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            });
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/pdf", "application/epub+zip", "text/plain", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
             startActivityForResult(intent, REQUEST_OPEN_DOCUMENT);
         });
     }
@@ -309,15 +288,12 @@ public class MainActivity extends Activity {
             int flags = data.getFlags() & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             getContentResolver().takePersistableUriPermission(uri, flags & Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } catch (Exception ignored) { }
-
         JSONObject detail = new JSONObject();
         try {
-            detail.put("uri", uri.toString());
-            detail.put("mime", getContentResolver().getType(uri));
+            detail.put("uri", uri.toString()); detail.put("mime", getContentResolver().getType(uri));
             try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
                 if (cursor != null && cursor.moveToFirst()) {
-                    int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                    int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+                    int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME); int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
                     if (nameIndex >= 0) detail.put("name", cursor.getString(nameIndex));
                     if (sizeIndex >= 0 && !cursor.isNull(sizeIndex)) detail.put("size", cursor.getLong(sizeIndex));
                 }
@@ -326,10 +302,50 @@ public class MainActivity extends Activity {
         emitEvent("luma-file-selected", detail);
     }
 
+    private JSONObject pdfInfo(String uriString) {
+        JSONObject out = new JSONObject();
+        try (ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(Uri.parse(uriString), "r");
+             PdfRenderer renderer = pfd != null ? new PdfRenderer(pfd) : null) {
+            if (renderer == null) throw new IllegalStateException("PDF unavailable");
+            out.put("pageCount", renderer.getPageCount());
+        } catch (Exception e) {
+            try { out.put("error", e.getClass().getSimpleName()); } catch (Exception ignored) { }
+        }
+        return out;
+    }
+
+    private JSONObject renderPdfPage(String uriString, int pageIndex, int maxWidth) {
+        JSONObject out = new JSONObject();
+        try (ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(Uri.parse(uriString), "r");
+             PdfRenderer renderer = pfd != null ? new PdfRenderer(pfd) : null) {
+            if (renderer == null) throw new IllegalStateException("PDF unavailable");
+            int index = Math.max(0, Math.min(pageIndex, renderer.getPageCount() - 1));
+            try (PdfRenderer.Page page = renderer.openPage(index)) {
+                int targetWidth = Math.max(600, Math.min(maxWidth > 0 ? maxWidth : 1400, 1800));
+                int targetHeight = Math.max(1, Math.round(targetWidth * (page.getHeight() / (float) page.getWidth())));
+                Bitmap bitmap = Bitmap.createBitmap(targetWidth, targetHeight, Bitmap.Config.ARGB_8888);
+                bitmap.eraseColor(Color.WHITE);
+                page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 92, bytes);
+                bitmap.recycle();
+                out.put("pageIndex", index); out.put("pageCount", renderer.getPageCount());
+                out.put("width", targetWidth); out.put("height", targetHeight);
+                out.put("base64", Base64.encodeToString(bytes.toByteArray(), Base64.NO_WRAP));
+            }
+        } catch (Exception e) {
+            try { out.put("error", e.getClass().getSimpleName()); } catch (Exception ignored) { }
+        }
+        return out;
+    }
+
+    private void openExternal(String url) {
+        try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))); } catch (Exception ignored) { }
+    }
+
     @Override
     public void onBackPressed() {
-        if (webView != null && webView.canGoBack()) webView.goBack();
-        else super.onBackPressed();
+        if (webView != null && webView.canGoBack()) webView.goBack(); else super.onBackPressed();
     }
 
     public class NativeBridge {
@@ -339,6 +355,9 @@ public class MainActivity extends Activity {
         @JavascriptInterface public String getUpdateStatus() { return MainActivity.this.updateInfo().toString(); }
         @JavascriptInterface public void checkForUpdates() { MainActivity.this.checkForUiUpdate(true); }
         @JavascriptInterface public void pickDocument() { MainActivity.this.openDocumentPicker(); }
+        @JavascriptInterface public String getPdfInfo(String uri) { return MainActivity.this.pdfInfo(uri).toString(); }
+        @JavascriptInterface public String renderPdfPage(String uri, int pageIndex, int maxWidth) { return MainActivity.this.renderPdfPage(uri, pageIndex, maxWidth).toString(); }
+        @JavascriptInterface public void openExternalUrl(String url) { MainActivity.this.openExternal(url); }
         @JavascriptInterface public void reload() { runOnUiThread(MainActivity.this::loadLocalUi); }
     }
 }
