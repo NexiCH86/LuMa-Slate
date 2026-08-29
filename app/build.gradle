@@ -81,4 +81,8 @@ tasks.register('verifyReleaseSigning') {
     }
 }
 
-preReleaseBuild.dependsOn verifyReleaseSigning
+afterEvaluate {
+    tasks.named('preReleaseBuild').configure {
+        dependsOn tasks.named('verifyReleaseSigning')
+    }
+}
