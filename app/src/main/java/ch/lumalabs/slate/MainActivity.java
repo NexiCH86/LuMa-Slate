@@ -2,10 +2,18 @@ package ch.lumalabs.slate;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.Uri;
+import android.os.BatteryManager;
 import android.os.Bundle;
+import android.os.StatFs;
+import android.provider.OpenableColumns;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -27,22 +35,25 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends Activity {
-    private static final String SHELL_VERSION = "1.0.0";
-    private static final String BUNDLED_UI_VERSION = "0.6.0";
+    private static final String SHELL_VERSION = "1.0.1";
+    private static final String BUNDLED_UI_VERSION = "0.8.0";
     private static final String BASE_URL = "https://raw.githubusercontent.com/NexiCH86/LuMa-Slate/main/";
+    private static final int REQUEST_OPEN_DOCUMENT = 2048;
     private static final List<String> UI_FILES = Arrays.asList(
             "index.html", "styles.css", "app.js", "manifest.webmanifest", "update-manifest.json"
     );
 
     private WebView webView;
     private File uiDir;
+    private volatile String updateStatus = "idle";
+    private volatile long lastUpdateCheck = 0L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        getWindow().setStatusBarColor(Color.rgb(8, 47, 50));
-        getWindow().setNavigationBarColor(Color.rgb(246, 247, 245));
+        getWindow().setStatusBarColor(Color.rgb(7, 17, 23));
+        getWindow().setNavigationBarColor(Color.rgb(244, 246, 248));
 
         uiDir = new File(getFilesDir(), "luma-ui");
         if (!uiDir.exists()) uiDir.mkdirs();
@@ -66,14 +77,14 @@ public class MainActivity extends Activity {
         s.setBuiltInZoomControls(false);
         s.setDisplayZoomControls(false);
         s.setTextZoom(100);
-        webView.setBackgroundColor(Color.rgb(246, 247, 245));
+        webView.setBackgroundColor(Color.rgb(244, 246, 248));
         webView.addJavascriptInterface(new NativeBridge(), "LuMaNative");
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri uri = request.getUrl();
                 String scheme = uri.getScheme();
-                if ("file".equalsIgnoreCase(scheme)) return false;
+                if ("file".equalsIgnoreCase(scheme) || "content".equalsIgnoreCase(scheme)) return false;
                 if ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme)) {
                     startActivity(new Intent(Intent.ACTION_VIEW, uri));
                     return true;
@@ -109,16 +120,40 @@ public class MainActivity extends Activity {
         return getPreferences(MODE_PRIVATE).getString("uiVersion", BUNDLED_UI_VERSION);
     }
 
+    private void emitEvent(String name, JSONObject detail) {
+        if (webView == null) return;
+        String payload = detail == null ? "{}" : detail.toString();
+        String js = "window.dispatchEvent(new CustomEvent(" + JSONObject.quote(name) + ",{detail:JSON.parse(" + JSONObject.quote(payload) + ")}));";
+        runOnUiThread(() -> webView.evaluateJavascript(js, null));
+    }
+
     private void checkForUiUpdate(boolean manual) {
+        updateStatus = "checking";
+        lastUpdateCheck = System.currentTimeMillis();
         new Thread(() -> {
             try {
                 String manifestText = readUrl(BASE_URL + "update-manifest.json?ts=" + System.currentTimeMillis());
                 JSONObject manifest = new JSONObject(manifestText);
                 String latest = manifest.getString("latestUiVersion");
                 String minShell = manifest.optString("minimumShellVersion", "1.0.0");
-                if (compareVersions(SHELL_VERSION, minShell) < 0) return;
-                if (compareVersions(latest, getUiVersion()) <= 0) return;
+                if (compareVersions(SHELL_VERSION, minShell) < 0) {
+                    updateStatus = "shell_required";
+                    JSONObject d = new JSONObject();
+                    d.put("status", updateStatus);
+                    d.put("minimumShellVersion", minShell);
+                    emitEvent("luma-update-status", d);
+                    return;
+                }
+                if (compareVersions(latest, getUiVersion()) <= 0) {
+                    updateStatus = "up_to_date";
+                    JSONObject d = new JSONObject();
+                    d.put("status", updateStatus);
+                    d.put("latestUiVersion", latest);
+                    emitEvent("luma-update-status", d);
+                    return;
+                }
 
+                updateStatus = "downloading";
                 File staging = new File(getFilesDir(), "luma-ui-staging");
                 deleteRecursive(staging);
                 staging.mkdirs();
@@ -132,11 +167,17 @@ public class MainActivity extends Activity {
                 if (!staging.renameTo(uiDir)) throw new IllegalStateException("UI update swap failed");
                 deleteRecursive(old);
                 getPreferences(MODE_PRIVATE).edit().putString("uiVersion", latest).apply();
+                updateStatus = "updated";
                 runOnUiThread(this::loadLocalUi);
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                updateStatus = "error";
                 if (manual) {
-                    runOnUiThread(() -> webView.evaluateJavascript(
-                            "window.dispatchEvent(new CustomEvent('luma-update-error'))", null));
+                    JSONObject d = new JSONObject();
+                    try {
+                        d.put("status", updateStatus);
+                        d.put("message", e.getClass().getSimpleName());
+                    } catch (Exception ignored) { }
+                    emitEvent("luma-update-error", d);
                 }
             }
         }).start();
@@ -199,6 +240,92 @@ public class MainActivity extends Activity {
         f.delete();
     }
 
+    private JSONObject systemInfo() {
+        JSONObject o = new JSONObject();
+        try {
+            Intent battery = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            int level = battery != null ? battery.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) : -1;
+            int scale = battery != null ? battery.getIntExtra(BatteryManager.EXTRA_SCALE, 100) : 100;
+            int pct = level >= 0 && scale > 0 ? Math.round(level * 100f / scale) : -1;
+            int plugged = battery != null ? battery.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) : 0;
+            o.put("batteryPercent", pct);
+            o.put("charging", plugged != 0);
+
+            StatFs stat = new StatFs(getFilesDir().getAbsolutePath());
+            o.put("storageFreeBytes", stat.getAvailableBytes());
+            o.put("storageTotalBytes", stat.getTotalBytes());
+
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+            Network network = cm != null ? cm.getActiveNetwork() : null;
+            NetworkCapabilities caps = network != null && cm != null ? cm.getNetworkCapabilities(network) : null;
+            boolean connected = caps != null && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
+            String type = "Offline";
+            if (caps != null) {
+                if (caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) type = "Wi‑Fi";
+                else if (caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) type = "Mobile";
+                else if (caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) type = "Ethernet";
+                else if (connected) type = "Online";
+            }
+            o.put("networkConnected", connected);
+            o.put("networkType", type);
+            o.put("androidVersion", android.os.Build.VERSION.RELEASE);
+            o.put("deviceModel", android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL);
+        } catch (Exception ignored) { }
+        return o;
+    }
+
+    private JSONObject updateInfo() {
+        JSONObject o = new JSONObject();
+        try {
+            o.put("status", updateStatus);
+            o.put("lastCheck", lastUpdateCheck);
+            o.put("source", BASE_URL);
+            o.put("channel", "stable");
+            o.put("uiVersion", getUiVersion());
+            o.put("shellVersion", SHELL_VERSION);
+        } catch (Exception ignored) { }
+        return o;
+    }
+
+    private void openDocumentPicker() {
+        runOnUiThread(() -> {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{
+                    "application/pdf", "application/epub+zip", "text/plain",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            });
+            startActivityForResult(intent, REQUEST_OPEN_DOCUMENT);
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != REQUEST_OPEN_DOCUMENT || resultCode != RESULT_OK || data == null || data.getData() == null) return;
+        Uri uri = data.getData();
+        try {
+            int flags = data.getFlags() & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            getContentResolver().takePersistableUriPermission(uri, flags & Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } catch (Exception ignored) { }
+
+        JSONObject detail = new JSONObject();
+        try {
+            detail.put("uri", uri.toString());
+            detail.put("mime", getContentResolver().getType(uri));
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+                    if (nameIndex >= 0) detail.put("name", cursor.getString(nameIndex));
+                    if (sizeIndex >= 0 && !cursor.isNull(sizeIndex)) detail.put("size", cursor.getLong(sizeIndex));
+                }
+            }
+        } catch (Exception ignored) { }
+        emitEvent("luma-file-selected", detail);
+    }
+
     @Override
     public void onBackPressed() {
         if (webView != null && webView.canGoBack()) webView.goBack();
@@ -208,7 +335,10 @@ public class MainActivity extends Activity {
     public class NativeBridge {
         @JavascriptInterface public String getShellVersion() { return SHELL_VERSION; }
         @JavascriptInterface public String getUiVersion() { return MainActivity.this.getUiVersion(); }
+        @JavascriptInterface public String getSystemInfo() { return MainActivity.this.systemInfo().toString(); }
+        @JavascriptInterface public String getUpdateStatus() { return MainActivity.this.updateInfo().toString(); }
         @JavascriptInterface public void checkForUpdates() { MainActivity.this.checkForUiUpdate(true); }
+        @JavascriptInterface public void pickDocument() { MainActivity.this.openDocumentPicker(); }
         @JavascriptInterface public void reload() { runOnUiThread(MainActivity.this::loadLocalUi); }
     }
 }
