@@ -16,13 +16,13 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
@@ -122,17 +122,22 @@ public class MainActivity extends Activity {
                 File staging = new File(getFilesDir(), "luma-ui-staging");
                 deleteRecursive(staging);
                 staging.mkdirs();
-                for (String name : UI_FILES) downloadFile(BASE_URL + name + "?ts=" + System.currentTimeMillis(), new File(staging, name));
+                for (String name : UI_FILES) {
+                    downloadFile(BASE_URL + name + "?ts=" + System.currentTimeMillis(), new File(staging, name));
+                }
 
                 File old = new File(getFilesDir(), "luma-ui-old");
                 deleteRecursive(old);
                 if (uiDir.exists()) uiDir.renameTo(old);
-                staging.renameTo(uiDir);
+                if (!staging.renameTo(uiDir)) throw new IllegalStateException("UI update swap failed");
                 deleteRecursive(old);
                 getPreferences(MODE_PRIVATE).edit().putString("uiVersion", latest).apply();
                 runOnUiThread(this::loadLocalUi);
             } catch (Exception ignored) {
-                if (manual) runOnUiThread(() -> webView.evaluateJavascript("window.dispatchEvent(new CustomEvent('luma-update-error'))", null));
+                if (manual) {
+                    runOnUiThread(() -> webView.evaluateJavascript(
+                            "window.dispatchEvent(new CustomEvent('luma-update-error'))", null));
+                }
             }
         }).start();
     }
@@ -142,8 +147,12 @@ public class MainActivity extends Activity {
         c.setConnectTimeout(7000);
         c.setReadTimeout(10000);
         c.setRequestProperty("User-Agent", "LuMa-Slate/" + SHELL_VERSION);
-        try (InputStream in = new BufferedInputStream(c.getInputStream())) {
-            return new String(in.readAllBytes(), StandardCharsets.UTF_8);
+        try (InputStream in = new BufferedInputStream(c.getInputStream());
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[8192];
+            int read;
+            while ((read = in.read(buffer)) != -1) out.write(buffer, 0, read);
+            return new String(out.toByteArray(), StandardCharsets.UTF_8);
         } finally {
             c.disconnect();
         }
