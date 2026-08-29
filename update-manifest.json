@@ -1,14 +1,16 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.7.1",
+  "latestUiVersion": "0.8.0",
   "minimumShellVersion": "1.0.0",
-  "publishedAt": "2026-08-29T22:46:00+02:00",
+  "publishedAt": "2026-08-29T23:20:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "BOOX contrast optimization",
-    "Correct native UI version display",
-    "OTA version badge hotfix",
-    "Improved update error feedback"
+    "Official LuMa Labs E-Ink LM branding in LuMa Slate",
+    "New System Diagnostics workspace",
+    "Native battery, storage and network bridge for Shell 1.0.1",
+    "Native Android document picker bridge for Shell 1.0.1",
+    "Improved manual OTA update status feedback",
+    "Shell 1.0.1 foundation prepared with LuMa adaptive app icon and Android 12 splash screen"
   ]
 }
