@@ -11,7 +11,31 @@ android {
         minSdk 26
         targetSdk 35
         versionCode 2
-        versionName '1.0.1-alpha1'
+        versionName '1.0.1'
+    }
+
+    signingConfigs {
+        release {
+            def storeFilePath = System.getenv('LUMA_ANDROID_KEYSTORE_PATH')
+            def storePasswordEnv = System.getenv('LUMA_ANDROID_KEYSTORE_PASSWORD')
+            def keyAliasEnv = System.getenv('LUMA_ANDROID_KEY_ALIAS')
+            def keyPasswordEnv = System.getenv('LUMA_ANDROID_KEY_PASSWORD')
+
+            if (storeFilePath && storePasswordEnv && keyAliasEnv && keyPasswordEnv) {
+                storeFile file(storeFilePath)
+                storePassword storePasswordEnv
+                keyAlias keyAliasEnv
+                keyPassword keyPasswordEnv
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
     }
 
     sourceSets {
@@ -37,3 +61,24 @@ tasks.register('syncWebAssets', Copy) {
 }
 
 preBuild.dependsOn syncWebAssets
+
+tasks.register('verifyReleaseSigning') {
+    doLast {
+        def required = [
+            'LUMA_ANDROID_KEYSTORE_PATH',
+            'LUMA_ANDROID_KEYSTORE_PASSWORD',
+            'LUMA_ANDROID_KEY_ALIAS',
+            'LUMA_ANDROID_KEY_PASSWORD'
+        ]
+        def missing = required.findAll { !System.getenv(it) }
+        if (!missing.isEmpty()) {
+            throw new GradleException("Release signing is mandatory. Missing environment variables: ${missing.join(', ')}")
+        }
+        def keystore = file(System.getenv('LUMA_ANDROID_KEYSTORE_PATH'))
+        if (!keystore.exists()) {
+            throw new GradleException("Release signing keystore not found at ${keystore}")
+        }
+    }
+}
+
+preReleaseBuild.dependsOn verifyReleaseSigning
