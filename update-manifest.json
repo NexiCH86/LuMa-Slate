@@ -1,16 +1,16 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.9.0",
-  "minimumShellVersion": "1.0.1",
-  "publishedAt": "2026-08-29T23:55:00+02:00",
+  "latestUiVersion": "0.10.0",
+  "minimumShellVersion": "1.1.0",
+  "publishedAt": "2026-08-30T18:00:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Reader Pro foundation with persistent reading state and bookmarks",
-    "Library Pro with native document import, favorites, recents and reading progress",
-    "LuMa AI Workspace with persistent mode selection and Reader/Project/Notes context",
-    "Notes Pro with local persistent notes, autosave and AI context handoff",
-    "Imported document metadata persists locally on the BOOX via Android Storage Access Framework",
-    "E-Ink optimized controls and daily-driver status surfaces"
+    "Reader Pro: native Android PDF rendering with real page count, zoom and persistent reading progress",
+    "Annotation Engine: pen and marker overlay with per-page persistent ink, undo and clear controls",
+    "Work Pro: Linear project issue mirror with direct issue deep links and secure backend-ready connector architecture",
+    "LuMa Sync Engine: local-first workspace snapshots, offline queue and remote endpoint foundation for LuisServer",
+    "Shell 1.1.0 adds native PDF renderer and safe external URL bridge",
+    "No Linear credentials or service tokens are stored on the BOOX device"
   ]
 }
