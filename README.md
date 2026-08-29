@@ -11,7 +11,7 @@ LuMa Slate is a portrait-first E-Ink engineering workspace for the ONYX BOOX Tab
 - Color resolution: 1240 × 930 at 150 ppi
 - Android 12
 
-## Current prototype – V0.5
+## Current prototype – V0.6
 
 ### Block 01 – Workspace shell & dashboard
 
@@ -56,6 +56,25 @@ LuMa Slate is a portrait-first E-Ink engineering workspace for the ONYX BOOX Tab
 - Context switching between workspace, document, project and notes
 - Connected UI flow from Reader, Work and Notes into LuMa AI
 
+### Block 06 – LuMa Update Core
+
+- Independent UI and Android-shell versioning
+- `update-manifest.json` stable release channel
+- Automatic update check at app startup
+- Compatibility check using `minimumShellVersion`
+- E-Ink friendly in-app update banner
+- Service Worker cache migration between UI versions
+- User data is architecturally separated from UI releases
+- Goal: install the APK once and deliver ordinary LuMa Slate releases OTA
+
+See `docs/UPDATE-ARCHITECTURE.md` for the complete update model.
+
+## Update model
+
+The future Android APK will be a long-lived native shell. Normal LuMa Slate development happens in the independently updateable UI layer. Library, Reader, Work, Notes, AI workflows and most design/function changes are intended to update without reinstalling the APK.
+
+A new APK can still be required when the native Android/BOOX bridge itself must change, for example new Android permissions, device APIs, signing/SDK requirements or new native BOOX integrations. The update architecture deliberately keeps that native layer small so these APK updates should be rare.
+
 ## Run locally
 
 Any static web server works. Example:
@@ -68,16 +87,16 @@ Then open `http://localhost:8080`.
 
 ## Architecture direction
 
-The prototype deliberately stays framework-free while we validate it on the real BOOX hardware. The current V0.5 is an interactive UI prototype: document contents, projects, notes and AI answers are still demo data. The next engineering phase connects these screens to local Android storage, BOOX capabilities, LuMa Sync and the LuMa AI backend.
+The prototype deliberately stays framework-free while we validate it on the real BOOX hardware. The current V0.6 is an interactive UI prototype with the first OTA-update architecture in place. Document contents, projects, notes and AI answers are still demo data. The next engineering phase connects these screens to local Android storage, BOOX capabilities, LuMa Sync and the LuMa AI backend.
 
 ## Next phases
 
-1. Deploy V0.5 and test it on the physical BOOX Tab Ultra C Pro.
+1. Deploy V0.6 and test it on the physical BOOX Tab Ultra C Pro.
 2. Tune scale, font weight, touch targets, ghosting and refresh behaviour.
-3. Connect the Library to real local files and LuMa Sync.
-4. Implement real PDF rendering and the BOOX/Android annotation bridge.
-5. Connect LuMa AI online/local/offline backends.
-6. Package LuMa Slate as an Android shell / APK.
+3. Build the long-lived Android shell around the OTA update architecture.
+4. Connect the Library to real local files and LuMa Sync.
+5. Implement real PDF rendering and the BOOX/Android annotation bridge.
+6. Connect LuMa AI online/local/offline backends.
 7. Add device integration and optional default-launcher behaviour.
 
 ## Design principles
