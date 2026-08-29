@@ -1,0 +1,12 @@
+<resources>
+    <style name="Theme.LuMaSlate" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/luma_graphite</item>
+        <item name="android:navigationBarColor">@color/luma_off_white</item>
+        <item name="android:windowBackground">@color/luma_off_white</item>
+        <item name="android:windowSplashScreenBackground">@color/luma_off_white</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/luma_signet</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/luma_off_white</item>
+    </style>
+</resources>
