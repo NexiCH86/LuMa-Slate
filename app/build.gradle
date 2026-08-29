@@ -1,0 +1,39 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'ch.lumalabs.slate'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'ch.lumalabs.slate'
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName '1.0.0-alpha1'
+    }
+
+    sourceSets {
+        main {
+            assets.srcDir "$buildDir/generated/lumaAssets"
+        }
+    }
+}
+
+def webFiles = [
+    'index.html',
+    'styles.css',
+    'app.js',
+    'manifest.webmanifest',
+    'update-manifest.json'
+]
+
+tasks.register('syncWebAssets', Copy) {
+    from(rootProject.projectDir) {
+        include webFiles
+    }
+    into(layout.buildDirectory.dir('generated/lumaAssets'))
+}
+
+preBuild.dependsOn syncWebAssets
