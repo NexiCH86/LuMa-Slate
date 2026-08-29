@@ -1,16 +1,16 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.8.0",
-  "minimumShellVersion": "1.0.0",
-  "publishedAt": "2026-08-29T23:20:00+02:00",
+  "latestUiVersion": "0.9.0",
+  "minimumShellVersion": "1.0.1",
+  "publishedAt": "2026-08-29T23:55:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Official LuMa Labs E-Ink LM branding in LuMa Slate",
-    "New System Diagnostics workspace",
-    "Native battery, storage and network bridge for Shell 1.0.1",
-    "Native Android document picker bridge for Shell 1.0.1",
-    "Improved manual OTA update status feedback",
-    "Shell 1.0.1 foundation prepared with LuMa adaptive app icon and Android 12 splash screen"
+    "Reader Pro foundation with persistent reading state and bookmarks",
+    "Library Pro with native document import, favorites, recents and reading progress",
+    "LuMa AI Workspace with persistent mode selection and Reader/Project/Notes context",
+    "Notes Pro with local persistent notes, autosave and AI context handoff",
+    "Imported document metadata persists locally on the BOOX via Android Storage Access Framework",
+    "E-Ink optimized controls and daily-driver status surfaces"
   ]
 }
