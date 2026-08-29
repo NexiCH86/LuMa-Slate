@@ -1,15 +1,16 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.6.0",
+  "latestUiVersion": "0.7.0",
   "minimumShellVersion": "1.0.0",
-  "publishedAt": "2026-08-29T22:00:00+02:00",
+  "publishedAt": "2026-08-29T22:40:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "LuMa Update Core added",
-    "Stable update channel and version manifest",
-    "Automatic update checks on app start",
-    "E-Ink friendly update banner",
-    "Offline cache migration for new UI releases"
+    "BOOX hardware contrast pass based on first real-device test",
+    "Darker secondary text for Kaleido 3 readability",
+    "Stronger borders and selection states",
+    "Larger touch targets and navigation labels",
+    "Flatter E-Ink friendly surfaces with reduced gradients",
+    "Logo remains temporary until the LuMa Labs brand system is finalized"
   ]
 }
