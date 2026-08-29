@@ -1,17 +1,16 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.10.1",
+  "latestUiVersion": "0.10.2",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T00:30:00+02:00",
+  "publishedAt": "2026-08-30T00:45:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Reader Pro 0.10.1: Fit Page, Fit Width, 100 percent and manual zoom down to 20 percent",
-    "Reader fullscreen mode hides LuMa Slate chrome and maximizes PDF reading area",
-    "Removed obsolete fixed 132-136 reader sidebar from native PDF view",
-    "Pen and marker now support selectable thickness and E-Ink-friendly colors",
-    "Pen/marker settings persist locally and new strokes store tool, width, color and opacity",
-    "Removed obsolete Reader Pro 0.9 native-rendering notice",
-    "Existing Reader, Work Pro, Linear foundation and LuMa Sync features remain available"
+    "Reader Pro 0.10.2 adds previous/next page controls and current page indicator in fullscreen mode",
+    "Marker opacity is adjustable from 1/10 to 10/10 and persists locally",
+    "Added dedicated eraser tool for removing individual annotation strokes",
+    "BOOX stylus eraser/backside PointerEvent support is enabled where Android WebView exposes the pen eraser button",
+    "Fit Page, Fit Width, 100 percent, manual zoom, pen/marker colors and thickness remain available",
+    "Existing Work Pro, Linear foundation and LuMa Sync features remain available"
   ]
 }
