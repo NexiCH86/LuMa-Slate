@@ -65,7 +65,12 @@ jobs:
       - name: Verify APK signature
         run: |
           APK='app/build/outputs/apk/release/app-release.apk'
-          apksigner verify --verbose --print-certs "$APK"
+          APKSIGNER="$ANDROID_SDK_ROOT/build-tools/35.0.0/apksigner"
+          if [ ! -x "$APKSIGNER" ]; then
+            echo "apksigner not found at $APKSIGNER"
+            exit 1
+          fi
+          "$APKSIGNER" verify --verbose --print-certs "$APK"
           cp "$APK" LuMa-Slate-Shell-1.0.1-release.apk
 
       - name: Upload release APK
