@@ -1,4 +1,4 @@
-name: Notes 0.12.18 publisher
+name: Notes 0.12.19 publisher
 on:
   push:
     paths:
@@ -10,17 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Replace 0.12.17 with Notes 0.12.18
+      - name: Inline focused Notes 0.12.19 color fix
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import re
           p=Path('index.html')
           s=p.read_text()
-          # 0.12.17 was already the consolidated baseline. Replace it cleanly instead of stacking another runtime.
-          s=re.sub(r'<!-- NOTES-PRO-0\.12\.17 -->\s*<script>.*?</script>', '', s, flags=re.S)
-          j=Path('notes-01218-patch.js').read_text()
-          marker='<!-- NOTES-PRO-0.12.18 -->'
+          j=Path('notes-01219-colorfix.js').read_text()
+          marker='<!-- NOTES-PRO-0.12.19 -->'
           if marker not in s:
               s=s.replace('</body>', marker+'<script>'+j+'</script></body>')
           p.write_text(s)
@@ -29,19 +26,16 @@ jobs:
           {
             "product": "LuMa Slate",
             "channel": "stable",
-            "latestUiVersion": "0.12.18",
+            "latestUiVersion": "0.12.19",
             "minimumShellVersion": "1.1.0",
-            "publishedAt": "2026-08-30T13:02:00+02:00",
+            "publishedAt": "2026-08-30T13:08:00+02:00",
             "mandatory": false,
             "releaseNotes": [
-              "Keeps the hardware-confirmed single large resize handle from 0.12.17",
-              "Text block geometry no longer grows downward on every keystroke; automatic growth now happens only when content actually reaches the current block boundary",
-              "When automatic growth is needed, width grows first in larger steps while page space remains, then height grows only after real vertical overflow",
-              "Text colors are now stored per character while the native BOOX textarea remains the actual input control",
-              "With no selection, choosing a color changes only the insertion color from the current cursor onward; existing text keeps its previous color",
-              "With a selection, choosing a color recolors only the selected characters",
-              "Mixed colors are rendered by a passive color layer while the native textarea keeps keyboard, caret and selection handling",
-              "Width and height remain persisted across Text/Pen/Marker/Eraser mode switches",
+              "Keeps the hardware-confirmed Notes 0.12.18 writing, resize, geometry persistence and overflow-only growth unchanged",
+              "Fixes insertion color being reset to black as soon as typing resumes",
+              "The selected text color is now kept independently for the active text block and re-applied to newly inserted characters after every native BOOX input event",
+              "Existing characters keep their original colors while new characters use the currently selected color",
+              "Selecting a text range and choosing a color continues to affect only that selection",
               "No new APK is required; Shell 1.1.0 remains sufficient"
             ]
           }
@@ -51,5 +45,5 @@ jobs:
           git config user.name 'LuMa Slate Release Bot'
           git config user.email 'actions@users.noreply.github.com'
           git add index.html update-manifest.json
-          git commit -m 'fix(notes): publish Notes Pro 0.12.18 mixed colors and overflow growth' || exit 0
+          git commit -m 'fix(notes): publish Notes Pro 0.12.19 insertion color persistence' || exit 0
           git push
