@@ -1,4 +1,4 @@
-name: Notes 0.12.29 publisher
+name: Notes 0.12.30 publisher
 on:
   push:
     paths:
@@ -10,23 +10,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Replace broken 0.12.28 delete interception and inline 0.12.29
+      - name: Replace 0.12.29 delete patch and inline 0.12.30
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import re
           p=Path('index.html'); s=p.read_text()
-          s=re.sub(r'<!-- NOTES-PRO-0\.12\.28 --><script>.*?</script>','',s,flags=re.S)
-          j=Path('notes-01229-delete-modal-fix.js').read_text(); marker='<!-- NOTES-PRO-0.12.29 -->'
+          s=re.sub(r'<!-- NOTES-PRO-0\.12\.29 --><script>.*?</script>','',s,flags=re.S)
+          j=Path('notes-01230-delete-controller.js').read_text(); marker='<!-- NOTES-PRO-0.12.30 -->'
           if marker not in s: s=s.replace('</body>',marker+'<script>'+j+'</script></body>')
           p.write_text(s)
           PY
           cat > update-manifest.json <<'EOF'
-          {"product":"LuMa Slate","channel":"stable","latestUiVersion":"0.12.29","minimumShellVersion":"1.1.0","publishedAt":"2026-08-30T15:30:00+02:00","mandatory":false,"releaseNotes":["Removes the broken 0.12.28 delete interception that blocked both confirmation and deletion","Restores a LuMa confirmation dialog for deleting a note","After confirmation the original Notes delete handler performs the actual deletion/render, while Notes is forced to remain the active screen","Keeps the Pen/Marker option isolation from 0.12.28 without changing the hardware-confirmed fullscreen mode","No APK required"]}
+          {"product":"LuMa Slate","channel":"stable","latestUiVersion":"0.12.30","minimumShellVersion":"1.1.0","publishedAt":"2026-08-30T15:36:00+02:00","mandatory":false,"releaseNotes":["Replaces the non-working 0.12.29 note-delete handler with a self-contained BOOX-safe delete controller","The delete button is captured on pointerdown, shows a LuMa confirmation dialog and performs the localStorage mutation directly after confirmation","After deletion the Notes editor is rerendered from persisted state and Notes remains the active screen","Does not touch the hardware-confirmed fullscreen mode, editor, colors, resize or Pen/Marker option separation","No APK required"]}
           EOF
       - name: Commit stable release
         run: |
           git config user.name 'LuMa Slate Release Bot'; git config user.email 'actions@users.noreply.github.com'
           git add index.html update-manifest.json
-          git commit -m 'fix(notes): publish 0.12.29 delete confirmation repair' || exit 0
+          git commit -m 'fix(notes): publish 0.12.30 BOOX-safe note delete controller' || exit 0
           git push
