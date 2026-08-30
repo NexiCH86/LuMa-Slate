@@ -1,4 +1,4 @@
-name: Notes 0.12.4 publisher
+name: Notes 0.12.5 publisher
 on:
   push:
     paths:
@@ -10,22 +10,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inline Notes 0.12.4 patch and update manifest
+      - name: Inline Notes 0.12.5 patch and update manifest
         run: |
-          python3 -c "from pathlib import Path; p=Path('index.html'); s=p.read_text(); j=Path('notes-0124-patch.js').read_text(); marker='<!-- NOTES-PRO-0.12.4 -->'; s=s if marker in s else s.replace('</body>', marker+'<script>'+j+'</script></body>'); p.write_text(s)"
+          python3 -c "from pathlib import Path; p=Path('index.html'); s=p.read_text(); j=Path('notes-0125-patch.js').read_text(); marker='<!-- NOTES-PRO-0.12.5 -->'; s=s if marker in s else s.replace('</body>', marker+'<script>'+j+'</script></body>'); p.write_text(s)"
           cat > update-manifest.json <<'EOF'
           {
             "product": "LuMa Slate",
             "channel": "stable",
-            "latestUiVersion": "0.12.4",
+            "latestUiVersion": "0.12.5",
             "minimumShellVersion": "1.1.0",
-            "publishedAt": "2026-08-30T11:18:00+02:00",
+            "publishedAt": "2026-08-30T11:28:00+02:00",
             "mandatory": false,
             "releaseNotes": [
-              "Pen and marker ink now renders above positioned text blocks so handwritten notes and highlights can cross typed text",
-              "Text blocks become editable only in Text mode while remaining transparent in Pen and Marker modes",
-              "Ink löschen now requires an explicit confirmation before clearing handwriting and marker strokes",
-              "Notiz löschen now requires an explicit confirmation before deleting the complete note and all pages",
+              "Repairs Text mode so tapping an empty point on the note page creates and focuses a positioned text block",
+              "Keeps handwriting and marker ink above typed text in Pen and Marker modes",
+              "Replaces browser confirmation dialogs with LuMa Slate in-app confirmation dialogs for Ink löschen and Notiz löschen",
+              "Ink löschen clears only handwriting and marker strokes on the current page after confirmation",
+              "Notiz löschen removes the complete note only after explicit confirmation",
               "No new APK is required; Shell 1.1.0 remains sufficient"
             ]
           }
@@ -35,5 +36,5 @@ jobs:
           git config user.name 'LuMa Slate Release Bot'
           git config user.email 'actions@users.noreply.github.com'
           git add index.html update-manifest.json
-          git commit -m 'feat(notes): publish Notes Pro 0.12.4' || exit 0
+          git commit -m 'fix(notes): publish Notes Pro 0.12.5' || exit 0
           git push
