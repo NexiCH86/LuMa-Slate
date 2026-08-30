@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build-ipados:
@@ -19,26 +19,8 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
-      - name: Generate LuMa Slate app icon
-        run: |
-          SDKROOT="" xcrun --sdk macosx swift \
-            ios/LuMaSlate/GenerateAppIcon.swift \
-            ios/LuMaSlate/Assets.xcassets/AppIcon.appiconset/LuMaSlateIcon.png
-          test -f ios/LuMaSlate/Assets.xcassets/AppIcon.appiconset/LuMaSlateIcon.png
-
-      - name: Persist LuMa Slate app icon in repository
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          set -e
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add ios/LuMaSlate/Assets.xcassets/AppIcon.appiconset/LuMaSlateIcon.png
-          if git diff --cached --quiet; then
-            echo "App icon already committed."
-          else
-            git commit -m "fix(ipados): persist LuMa Slate app icon"
-            git push
-          fi
+      - name: Verify committed LuMa Slate app icon
+        run: test -f ios/LuMaSlate/Assets.xcassets/AppIcon.appiconset/LuMaSlateIcon.png
 
       - name: Build LuMa Slate for iPad Simulator
         run: |
