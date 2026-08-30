@@ -1,4 +1,4 @@
-name: Notes 0.12.20 publisher
+name: Notes 0.12.21 publisher
 on:
   push:
     paths:
@@ -10,14 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inline Notes 0.12.20 fullscreen cleanup
+      - name: Inline Notes 0.12.21 toolbar cleanup
         run: |
           python3 - <<'PY'
           from pathlib import Path
           p=Path('index.html')
           s=p.read_text()
-          j=Path('notes-01220-fullscreen-cleanup.js').read_text()
-          marker='<!-- NOTES-PRO-0.12.20 -->'
+          j=Path('notes-01221-toolbar-cleanup.js').read_text()
+          marker='<!-- NOTES-PRO-0.12.21 -->'
           if marker not in s:
               s=s.replace('</body>', marker+'<script>'+j+'</script></body>')
           p.write_text(s)
@@ -26,15 +26,15 @@ jobs:
           {
             "product": "LuMa Slate",
             "channel": "stable",
-            "latestUiVersion": "0.12.20",
+            "latestUiVersion": "0.12.21",
             "minimumShellVersion": "1.1.0",
-            "publishedAt": "2026-08-30T13:04:00+02:00",
+            "publishedAt": "2026-08-30T13:10:00+02:00",
             "mandatory": false,
             "releaseNotes": [
-              "Keeps the hardware-confirmed Notes 0.12.19 editor, mixed colors, resize and geometry behavior unchanged",
-              "Removes the redundant manual Speichern button because Notes already persist continuously through Autosave",
-              "Fullscreen is now a distraction-free paper workspace: Notes Pro header/card, Speichern, Mit LuMa AI öffnen, sidebar, page/tool controls and text option bars are hidden",
-              "The compact top-right fullscreen HUD remains and shows only the currently selected tool plus the X exit control",
+              "Keeps the hardware-confirmed Notes editor, mixed colors, resize, autosave and fullscreen behavior unchanged",
+              "Removes the redundant rounded tool-summary pill such as Füllfeder · 8px or Marker · 22px from the normal Notes toolbar",
+              "Pen and marker type/width remain visible and adjustable in the contextual options below, so no functionality is lost",
+              "The compact fullscreen top-right tool indicator and X exit control remain unchanged",
               "No new APK is required; Shell 1.1.0 remains sufficient"
             ]
           }
@@ -44,5 +44,5 @@ jobs:
           git config user.name 'LuMa Slate Release Bot'
           git config user.email 'actions@users.noreply.github.com'
           git add index.html update-manifest.json
-          git commit -m 'feat(notes): publish Notes Pro 0.12.20 clean fullscreen workspace' || exit 0
+          git commit -m 'feat(notes): publish Notes Pro 0.12.21 toolbar cleanup' || exit 0
           git push
