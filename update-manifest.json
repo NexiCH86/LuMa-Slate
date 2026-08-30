@@ -1,17 +1,15 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.3",
+  "latestUiVersion": "0.12.4",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T11:05:00+02:00",
+  "publishedAt": "2026-08-30T11:18:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Notes Pro now shows only settings relevant to the selected tool",
-    "Pen mode shows pen style, thickness and pen colors only",
-    "Marker mode shows marker colors, width and opacity only",
-    "Text mode adds font family, font size, text color, bold, italic, underline and alignment",
-    "Added text presets for Title, Body and Quote plus bullet list, checklist and highlight background helpers",
-    "Text formatting is stored per positioned text block so mixed handwriting and formatted text remain on the same page",
+    "Pen and marker ink now renders above positioned text blocks so handwritten notes and highlights can cross typed text",
+    "Text blocks become editable only in Text mode while remaining transparent in Pen and Marker modes",
+    "Ink löschen now requires an explicit confirmation before clearing handwriting and marker strokes",
+    "Notiz löschen now requires an explicit confirmation before deleting the complete note and all pages",
     "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
