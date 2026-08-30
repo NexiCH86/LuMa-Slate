@@ -1,4 +1,4 @@
-name: Notes 0.12.8 publisher
+name: Notes 0.12.9 publisher
 on:
   push:
     paths:
@@ -10,22 +10,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inline Notes 0.12.8 patch and update manifest
+      - name: Inline Notes 0.12.9 patch and update manifest
         run: |
-          python3 -c "from pathlib import Path; p=Path('index.html'); s=p.read_text(); j=Path('notes-0128-patch.js').read_text(); marker='<!-- NOTES-PRO-0.12.8 -->'; s=s if marker in s else s.replace('</body>', marker+'<script>'+j+'</script></body>'); p.write_text(s)"
+          python3 -c "from pathlib import Path; p=Path('index.html'); s=p.read_text(); j=Path('notes-0129-patch.js').read_text(); marker='<!-- NOTES-PRO-0.12.9 -->'; s=s if marker in s else s.replace('</body>', marker+'<script>'+j+'</script></body>'); p.write_text(s)"
           cat > update-manifest.json <<'EOF'
           {
             "product": "LuMa Slate",
             "channel": "stable",
-            "latestUiVersion": "0.12.8",
+            "latestUiVersion": "0.12.9",
             "minimumShellVersion": "1.1.0",
-            "publishedAt": "2026-08-30T12:05:00+02:00",
+            "publishedAt": "2026-08-30T12:20:00+02:00",
             "mandatory": false,
             "releaseNotes": [
-              "Text blocks can now be freely resized in Text mode from small labels up to almost the full note page",
-              "Text automatically wraps inside the selected block",
-              "The chosen block width and height are persisted with the note and survive tool changes and reloads",
-              "Existing positioned text, Pen and Marker layering, state synchronization and deletion confirmations are retained",
+              "BOOX text options are now shown in a persistent LuMa panel instead of a briefly flashing popup",
+              "Text blocks get a large E-Ink friendly resize handle in Text mode",
+              "Text blocks automatically grow vertically while typing when content exceeds the current height",
+              "Text is no longer clipped when switching to Pen or Marker; non-Text modes expand blocks to show all content",
+              "Text content, formatting, size and position remain persisted across tool changes and reloads",
               "No new APK is required; Shell 1.1.0 remains sufficient"
             ]
           }
@@ -35,5 +36,5 @@ jobs:
           git config user.name 'LuMa Slate Release Bot'
           git config user.email 'actions@users.noreply.github.com'
           git add index.html update-manifest.json
-          git commit -m 'feat(notes): publish Notes Pro 0.12.8 resizable text blocks' || exit 0
+          git commit -m 'fix(notes): publish Notes Pro 0.12.9 BOOX text editor fixes' || exit 0
           git push
