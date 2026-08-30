@@ -1,15 +1,16 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.4",
+  "latestUiVersion": "0.12.5",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T11:18:00+02:00",
+  "publishedAt": "2026-08-30T11:28:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Pen and marker ink now renders above positioned text blocks so handwritten notes and highlights can cross typed text",
-    "Text blocks become editable only in Text mode while remaining transparent in Pen and Marker modes",
-    "Ink löschen now requires an explicit confirmation before clearing handwriting and marker strokes",
-    "Notiz löschen now requires an explicit confirmation before deleting the complete note and all pages",
+    "Repairs Text mode so tapping an empty point on the note page creates and focuses a positioned text block",
+    "Keeps handwriting and marker ink above typed text in Pen and Marker modes",
+    "Replaces browser confirmation dialogs with LuMa Slate in-app confirmation dialogs for Ink löschen and Notiz löschen",
+    "Ink löschen clears only handwriting and marker strokes on the current page after confirmation",
+    "Notiz löschen removes the complete note only after explicit confirmation",
     "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
