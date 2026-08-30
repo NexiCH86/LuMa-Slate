@@ -95,12 +95,12 @@
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = ();
-			inputPaths = ("$(SRCROOT)/LuMaSlate/GenerateAppIcon.swift");
+			inputPaths = ();
 			name = "Generate LuMa Slate Icon";
-			outputPaths = ("$(SRCROOT)/LuMaSlate/Assets.xcassets/AppIcon.appiconset/LuMaSlateIcon.png");
+			outputPaths = ();
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\nICON=\"${SRCROOT}/LuMaSlate/Assets.xcassets/AppIcon.appiconset/LuMaSlateIcon.png\"\nenv -u SDKROOT -u PLATFORM_NAME -u EFFECTIVE_PLATFORM_NAME xcrun --sdk macosx swift \"${SRCROOT}/LuMaSlate/GenerateAppIcon.swift\" \"$ICON\"\ntest -s \"$ICON\"\n";
+			shellScript = "set -e\nICON=\"${SRCROOT}/LuMaSlate/Assets.xcassets/AppIcon.appiconset/LuMaSlateIcon.png\"\nSDKROOT=\"\" xcrun --sdk macosx swift \"${SRCROOT}/LuMaSlate/GenerateAppIcon.swift\" \"$ICON\"\n";
 		};
 		A60000000000000000000003 /* Copy Slate UI */ = {
 			isa = PBXShellScriptBuildPhase;
