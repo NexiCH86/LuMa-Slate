@@ -1,16 +1,18 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.10.2",
+  "latestUiVersion": "0.11.0",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T00:45:00+02:00",
+  "publishedAt": "2026-08-30T10:00:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Reader Pro 0.10.2 adds previous/next page controls and current page indicator in fullscreen mode",
-    "Marker opacity is adjustable from 1/10 to 10/10 and persists locally",
-    "Added dedicated eraser tool for removing individual annotation strokes",
-    "BOOX stylus eraser/backside PointerEvent support is enabled where Android WebView exposes the pen eraser button",
-    "Fit Page, Fit Width, 100 percent, manual zoom, pen/marker colors and thickness remain available",
-    "Existing Work Pro, Linear foundation and LuMa Sync features remain available"
+    "Library Pro 0.11.0 introduces a real imported-document workspace backed by persisted local document metadata",
+    "Library statistics now show imported documents, favorites, in-progress documents and indexed PDF pages",
+    "Search covers document name, category and user tags; sorting supports recent, name and reading progress",
+    "Imported documents support editable categories and tags, favorite toggles, Reader opening and metadata-only removal",
+    "Reading progress and real PDF page counts from Reader Pro are surfaced directly in Library Pro",
+    "Cross-platform data architecture is now defined for BOOX Android E-Ink, Samsung Android tablets and future iPadOS",
+    "Reader Pro 0.10.2 fullscreen navigation, marker opacity and eraser behavior remain unchanged",
+    "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
