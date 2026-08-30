@@ -1,16 +1,15 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.19",
+  "latestUiVersion": "0.12.20",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T13:08:00+02:00",
+  "publishedAt": "2026-08-30T13:04:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Keeps the hardware-confirmed Notes 0.12.18 writing, resize, geometry persistence and overflow-only growth unchanged",
-    "Fixes insertion color being reset to black as soon as typing resumes",
-    "The selected text color is now kept independently for the active text block and re-applied to newly inserted characters after every native BOOX input event",
-    "Existing characters keep their original colors while new characters use the currently selected color",
-    "Selecting a text range and choosing a color continues to affect only that selection",
+    "Keeps the hardware-confirmed Notes 0.12.19 editor, mixed colors, resize and geometry behavior unchanged",
+    "Removes the redundant manual Speichern button because Notes already persist continuously through Autosave",
+    "Fullscreen is now a distraction-free paper workspace: Notes Pro header/card, Speichern, Mit LuMa AI öffnen, sidebar, page/tool controls and text option bars are hidden",
+    "The compact top-right fullscreen HUD remains and shows only the currently selected tool plus the X exit control",
     "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
