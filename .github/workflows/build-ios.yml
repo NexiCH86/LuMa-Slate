@@ -39,14 +39,28 @@ jobs:
             CONFIGURATION_BUILD_DIR="$PWD/build/ipados" \
             build
 
-      - name: Package unsigned app
+      - name: Package unsigned app and IPA
         run: |
-          cd build/ipados
-          zip -r LuMa-Slate-iPadOS-unsigned.zip "LuMa Slate.app"
+          set -e
+          mkdir -p build/package/Payload
+          cp -R "build/ipados/LuMa Slate.app" "build/package/Payload/LuMa Slate.app"
+          (cd build/package && zip -qry ../LuMa-Slate-iPadOS-unsigned.ipa Payload)
+          (cd build/ipados && zip -qry ../LuMa-Slate-iPadOS-unsigned-app.zip "LuMa Slate.app")
+          shasum -a 256 build/LuMa-Slate-iPadOS-unsigned.ipa > build/LuMa-Slate-iPadOS-unsigned.ipa.sha256
+          ls -lh build/LuMa-Slate-iPadOS-unsigned.ipa build/LuMa-Slate-iPadOS-unsigned-app.zip
 
-      - name: Upload iPadOS artifact
+      - name: Upload iPadOS IPA
         uses: actions/upload-artifact@v4
         with:
-          name: LuMa-Slate-iPadOS-unsigned
-          path: build/ipados/LuMa-Slate-iPadOS-unsigned.zip
+          name: LuMa-Slate-iPadOS-IPA
+          path: |
+            build/LuMa-Slate-iPadOS-unsigned.ipa
+            build/LuMa-Slate-iPadOS-unsigned.ipa.sha256
+          retention-days: 30
+
+      - name: Upload iPadOS app bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: LuMa-Slate-iPadOS-App
+          path: build/LuMa-Slate-iPadOS-unsigned-app.zip
           retention-days: 30
