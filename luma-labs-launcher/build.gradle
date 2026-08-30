@@ -1,0 +1,39 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'ch.lumalabs.launcher'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'ch.lumalabs.launcher'
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName '1.0.0'
+    }
+
+    signingConfigs {
+        release {
+            def storeFilePath = System.getenv('LUMA_ANDROID_KEYSTORE_PATH')
+            def storePasswordEnv = System.getenv('LUMA_ANDROID_KEYSTORE_PASSWORD')
+            def keyAliasEnv = System.getenv('LUMA_ANDROID_KEY_ALIAS')
+            def keyPasswordEnv = System.getenv('LUMA_ANDROID_KEY_PASSWORD')
+            if (storeFilePath && storePasswordEnv && keyAliasEnv && keyPasswordEnv) {
+                storeFile file(storeFilePath)
+                storePassword storePasswordEnv
+                keyAlias keyAliasEnv
+                keyPassword keyPasswordEnv
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+    }
+}
