@@ -1,16 +1,15 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.12",
+  "latestUiVersion": "0.12.13",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T12:12:00+02:00",
+  "publishedAt": "2026-08-30T12:18:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Text block width and height are now persisted before every tool switch and restored exactly after the Notes view is rebuilt",
-    "Pen, Marker and Eraser modes keep the same saved text block geometry instead of reverting to the default block size",
-    "Text options are now integrated into the same contextual options area used by Pen and Marker",
-    "The floating Aa Textoptionen button and floating panel are retired from the active UI",
-    "Text mode shows font, size, bold, italic, underline and delete controls directly below the tool selector",
+    "All visible text block dimensions are saved before every tool switch, so older handlers cannot lose the active block geometry",
+    "Saved text block width and height are enforced through canonical CSS variables with important rules across Text, Pen, Marker and Eraser modes",
+    "Text controls now render as a sibling directly below the standard options row, avoiding legacy popup click handlers while keeping the same visual position as Pen and Marker options",
+    "Legacy floating text option panels and the previous inline bar remain hidden",
     "Automatic cleanup of empty text blocks remains enabled",
     "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
