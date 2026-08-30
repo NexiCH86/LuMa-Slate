@@ -1,16 +1,15 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.7",
+  "latestUiVersion": "0.12.8",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T11:44:00+02:00",
+  "publishedAt": "2026-08-30T12:05:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Fixes Notes state synchronization between Text, Pen and Marker modes",
-    "Typed text blocks now remain stored and visible after switching tools",
-    "Confirmed Ink deletion now remains deleted after switching tools",
-    "Notes core reloads the latest persisted note state before every render instead of restoring stale in-memory data",
-    "Existing text formatting, positioned text blocks, Pen/Marker layering and deletion confirmations are retained",
+    "Text blocks can now be freely resized in Text mode from small labels up to almost the full note page",
+    "Text automatically wraps inside the selected block",
+    "The chosen block width and height are persisted with the note and survive tool changes and reloads",
+    "Existing positioned text, Pen and Marker layering, state synchronization and deletion confirmations are retained",
     "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
