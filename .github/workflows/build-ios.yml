@@ -1,0 +1,52 @@
+name: Build iPadOS
+
+on:
+  push:
+    branches: [main, feature/ipados-shell]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-ipados:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build LuMa Slate for iPad Simulator
+        run: |
+          xcodebuild \
+            -project ios/LuMaSlate.xcodeproj \
+            -scheme LuMaSlate \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            clean build
+
+      - name: Build unsigned iPadOS device app
+        run: |
+          xcodebuild \
+            -project ios/LuMaSlate.xcodeproj \
+            -scheme LuMaSlate \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            CODE_SIGNING_ALLOWED=NO \
+            CONFIGURATION_BUILD_DIR="$PWD/build/ipados" \
+            build
+
+      - name: Package unsigned app
+        run: |
+          cd build/ipados
+          zip -r LuMa-Slate-iPadOS-unsigned.zip "LuMa Slate.app"
+
+      - name: Upload iPadOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: LuMa-Slate-iPadOS-unsigned
+          path: build/ipados/LuMa-Slate-iPadOS-unsigned.zip
+          retention-days: 30
