@@ -1,18 +1,17 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.0",
+  "latestUiVersion": "0.12.1",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T10:15:00+02:00",
+  "publishedAt": "2026-08-30T10:24:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Notes Pro 0.12.0 introduces persistent multi-page handwritten and typed notes",
-    "Pen, marker and eraser tools are available with marker opacity from 1/10 to 10/10",
-    "BOOX stylus backside eraser handling is enabled where Android WebView exposes the eraser signal",
-    "Each note page stores text and vector-style stroke data in the portable LuMa Notes v2 model",
-    "Notes can be linked to a LuMa project and handed directly to LuMa AI as context",
-    "Existing luma.notes.v1 text notes are migrated into the new v2 note model",
-    "Library Pro, Reader Pro, Work Pro foundation and LuMa Sync foundation remain available",
+    "Notes Pro 0.12.1 removes the persistent Textnotiz placeholder from the writing surface",
+    "Added an explicit Text mode that gives the textarea focus and opens the virtual keyboard on supported devices",
+    "Added Pen options for style, thickness and E-Ink-friendly colors plus marker width and opacity controls",
+    "Notes layout spacing and visual hierarchy were refined for cleaner separation between Notes Pro, note list and active note",
+    "The global UI/Shell version badge is now shown only on the Home screen",
+    "Existing multi-page notes, handwriting, marker, eraser, project linking and LuMa AI context remain available",
     "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
