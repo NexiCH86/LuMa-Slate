@@ -1,17 +1,17 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.14",
+  "latestUiVersion": "0.12.15",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T12:24:00+02:00",
+  "publishedAt": "2026-08-30T12:32:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Textblock löschen now opens a LuMa confirmation dialog with Abbrechen and Löschen before any text is removed",
-    "A dedicated BOOX-safe resize handle restores manual text block resizing without relying on the browser-native resize implementation",
-    "Text blocks once again grow automatically to the right while space is available and then downward as text wraps",
-    "Manual and automatic width/height changes are persisted immediately and remain canonical across tool switches",
-    "The stable text options row from 0.12.13 remains unchanged in its current position",
-    "Empty text block cleanup remains enabled",
+    "Legacy text formatting popups are now permanently suppressed in Text mode to stop the brief flash seen on BOOX",
+    "The stable text options row now includes the missing text colors plus alignment, presets, list, checklist and highlight controls",
+    "Manual resize now uses a document-level pointer/touch drag implementation with a larger BOOX-safe handle",
+    "Automatic text block growth again expands to the right first and then downward when wrapping is required",
+    "Width and height are persisted after manual resize, automatic growth and before tool switches",
+    "Textblock löschen keeps the LuMa confirmation dialog with Abbrechen and Löschen",
     "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
