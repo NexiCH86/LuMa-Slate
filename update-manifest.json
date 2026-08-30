@@ -1,16 +1,16 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.6",
+  "latestUiVersion": "0.12.7",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T11:36:00+02:00",
+  "publishedAt": "2026-08-30T11:44:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Removes the temporary 'Hier tippen' helper box from Notes Text mode",
-    "Text blocks can now be placed anywhere on the page by tapping a free position",
-    "Text fields are created directly in the trusted pointer gesture and focused immediately for improved BOOX keyboard activation",
-    "Legacy delayed text placement is suppressed to prevent the text field from flashing and disappearing",
-    "Existing Pen, Marker, formatting and deletion confirmation behavior is retained",
+    "Fixes Notes state synchronization between Text, Pen and Marker modes",
+    "Typed text blocks now remain stored and visible after switching tools",
+    "Confirmed Ink deletion now remains deleted after switching tools",
+    "Notes core reloads the latest persisted note state before every render instead of restoring stale in-memory data",
+    "Existing text formatting, positioned text blocks, Pen/Marker layering and deletion confirmations are retained",
     "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
