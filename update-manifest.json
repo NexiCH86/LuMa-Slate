@@ -1,18 +1,19 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.16",
+  "latestUiVersion": "0.12.17",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T12:45:00+02:00",
+  "publishedAt": "2026-08-30T12:52:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Text blocks now use a rich-text editing overlay while keeping the existing Notes data model and BOOX-safe base renderer underneath",
-    "Text colors are now cursor/selection based: type in black, switch to red and continue typing in red without recoloring the previous text",
-    "Bold, italic and underline also work on the current selection or from the current cursor position",
-    "Automatic text block growth expands to the right first and then downward as required",
-    "Width and height are persisted continuously and restored from saved note geometry after Text/Pen/Marker/Eraser mode switches",
-    "Manual resize uses the dedicated BOOX-safe handle and saves dimensions while dragging",
-    "Textblock deletion keeps the LuMa confirmation dialog",
+    "Emergency stabilization after 0.12.16: normal BOOX text input and caret interaction are restored",
+    "All stacked Notes hotfix scripts 0.12.8 through 0.12.16 are removed from the delivered index so their old listeners can no longer compete",
+    "Exactly one large 52px BOOX-safe resize handle remains; legacy and rich-text handles are suppressed",
+    "The rich-text overlay introduced in 0.12.16 is removed because it blocked writing on the real BOOX device",
+    "Text block width and height are saved on input, resize, blur and before tool switches, then restored from canonical note geometry",
+    "Automatic growth expands to the right while space remains and then downward when wrapping is needed",
+    "The stable text options row and delete confirmation remain available",
+    "Per-character mixed text colors are temporarily deferred until the core editor is hardware-stable; this release prioritizes reliable writing and geometry",
     "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
