@@ -1,4 +1,4 @@
-name: Notes 0.12.16 publisher
+name: Notes 0.12.17 publisher
 on:
   push:
     paths:
@@ -10,25 +10,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inline Notes 0.12.16 patch and update manifest
+      - name: Consolidate Notes patches and publish 0.12.17
         run: |
-          python3 -c "from pathlib import Path; p=Path('index.html'); s=p.read_text(); j=Path('notes-01216-patch.js').read_text(); marker='<!-- NOTES-PRO-0.12.16 -->'; s=s if marker in s else s.replace('</body>', marker+'<script>'+j+'</script></body>'); p.write_text(s)"
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html')
+          s=p.read_text()
+          # Remove all stacked Notes hotfix scripts from 0.12.8 through 0.12.16.
+          # Their anonymous listeners were the source of duplicate handles and competing editors.
+          for v in range(8,17):
+              marker=f'<!-- NOTES-PRO-0.12.{v} -->'
+              s=re.sub(re.escape(marker)+r'<script>.*?</script>', '', s, flags=re.S)
+          # Defensive cleanup if an earlier marker was followed by whitespace.
+          s=re.sub(r'<!-- NOTES-PRO-0\.12\.(?:8|9|10|11|12|13|14|15|16) -->\s*<script>.*?</script>', '', s, flags=re.S)
+          j=Path('notes-01217-patch.js').read_text()
+          marker='<!-- NOTES-PRO-0.12.17 -->'
+          if marker not in s:
+              s=s.replace('</body>', marker+'<script>'+j+'</script></body>')
+          p.write_text(s)
+          PY
           cat > update-manifest.json <<'EOF'
           {
             "product": "LuMa Slate",
             "channel": "stable",
-            "latestUiVersion": "0.12.16",
+            "latestUiVersion": "0.12.17",
             "minimumShellVersion": "1.1.0",
-            "publishedAt": "2026-08-30T12:45:00+02:00",
+            "publishedAt": "2026-08-30T12:52:00+02:00",
             "mandatory": false,
             "releaseNotes": [
-              "Text blocks now use a rich-text editing overlay while keeping the existing Notes data model and BOOX-safe base renderer underneath",
-              "Text colors are now cursor/selection based: type in black, switch to red and continue typing in red without recoloring the previous text",
-              "Bold, italic and underline also work on the current selection or from the current cursor position",
-              "Automatic text block growth expands to the right first and then downward as required",
-              "Width and height are persisted continuously and restored from saved note geometry after Text/Pen/Marker/Eraser mode switches",
-              "Manual resize uses the dedicated BOOX-safe handle and saves dimensions while dragging",
-              "Textblock deletion keeps the LuMa confirmation dialog",
+              "Emergency stabilization after 0.12.16: normal BOOX text input and caret interaction are restored",
+              "All stacked Notes hotfix scripts 0.12.8 through 0.12.16 are removed from the delivered index so their old listeners can no longer compete",
+              "Exactly one large 52px BOOX-safe resize handle remains; legacy and rich-text handles are suppressed",
+              "The rich-text overlay introduced in 0.12.16 is removed because it blocked writing on the real BOOX device",
+              "Text block width and height are saved on input, resize, blur and before tool switches, then restored from canonical note geometry",
+              "Automatic growth expands to the right while space remains and then downward when wrapping is needed",
+              "The stable text options row and delete confirmation remain available",
+              "Per-character mixed text colors are temporarily deferred until the core editor is hardware-stable; this release prioritizes reliable writing and geometry",
               "No new APK is required; Shell 1.1.0 remains sufficient"
             ]
           }
@@ -38,5 +56,5 @@ jobs:
           git config user.name 'LuMa Slate Release Bot'
           git config user.email 'actions@users.noreply.github.com'
           git add index.html update-manifest.json
-          git commit -m 'fix(notes): publish Notes Pro 0.12.16 rich text and canonical geometry' || exit 0
+          git commit -m 'fix(notes): publish Notes Pro 0.12.17 consolidated editor cleanup' || exit 0
           git push
