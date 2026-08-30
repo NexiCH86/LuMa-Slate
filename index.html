@@ -328,5 +328,17 @@ function run(){css();hidePills();cleanFull()}
 let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(run,20)}).observe(document.documentElement,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class']});
 document.addEventListener('fullscreenchange',()=>setTimeout(run,0));document.addEventListener('pointerdown',e=>{if(e.target.closest?.('[data-tool],button'))setTimeout(run,25)},true);
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
+})();</script><!-- NOTES-PRO-0.12.23 --><script>(()=>{'use strict';
+const V='0.12.23';
+function root(){return document.getElementById('np122')}
+function norm(t){return String(t||'').trim().toLowerCase().replace(/\s+/g,' ')}
+function hideStatus(){const r=root();if(!r)return;r.querySelectorAll('.np122-status,span,div,button').forEach(el=>{if(el.matches('[data-tool],select,option')||el.querySelector?.('[data-tool],select'))return;const t=norm(el.textContent);if(el.classList.contains('np122-status')||t==='text + pen'||t==='text'||t==='radierer'||/(?:füllfeder|fuellfeder|fineliner|bleistift|kugelschreiber|marker|pen)\s*[·•\-:]?\s*\d+\s*px/.test(t))el.style.setProperty('display','none','important')})}
+function cleanFullscreen(){const on=document.body.classList.contains('np122-full');if(!on)return;const r=root();if(!r)return;const sc=document.querySelector('[data-screen="notes"]');document.querySelector('.topbar')?.style.setProperty('display','none','important');document.querySelector('.bottom-nav')?.style.setProperty('display','none','important');sc?.querySelector(':scope > .section-head')?.style.setProperty('display','none','important');r.querySelector('aside')?.style.setProperty('display','none','important');['.np122-meta','.np122-tools','.np122-options','.np122-pages','.np122-foot'].forEach(sel=>r.querySelectorAll(sel).forEach(x=>x.style.setProperty('display','none','important')));const main=r.querySelector('main');if(main){main.style.setProperty('padding','0','important');main.style.setProperty('border','0','important')}const paper=document.getElementById('nPaper');if(paper){paper.style.setProperty('height','100vh','important');paper.style.setProperty('min-height','100vh','important');paper.style.setProperty('border','0','important');paper.style.setProperty('aspect-ratio','auto','important')}
+}
+function restoreOutside(){if(document.body.classList.contains('np122-full'))return;document.querySelector('.topbar')?.style.removeProperty('display');document.querySelector('.bottom-nav')?.style.removeProperty('display');const sc=document.querySelector('[data-screen="notes"]');sc?.querySelector(':scope > .section-head')?.style.removeProperty('display')}
+function run(){hideStatus();cleanFullscreen();restoreOutside()}
+let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(run,20)}).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
+document.addEventListener('pointerdown',e=>{if(e.target.closest?.('[data-tool],#nFull,#nFsExit'))setTimeout(run,25)},true);
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();console.info('LuMa Slate Notes UI fix '+V+' ready');
 })();</script></body>
 </html>
