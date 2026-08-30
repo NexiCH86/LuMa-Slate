@@ -1,4 +1,4 @@
-name: Notes 0.12.37 publisher
+name: Notes 0.12.38 publisher
 on:
   push:
     paths:
@@ -10,21 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inline Notes 0.12.37 pixel alignment
+      - name: Inline Notes 0.12.38 visible text alignment
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          p=Path('index.html'); s=p.read_text(); j=Path('notes-01237-pixel-align.js').read_text()
-          marker='<!-- NOTES-PRO-0.12.37 -->'
+          p=Path('index.html'); s=p.read_text(); j=Path('notes-01238-bottom-anchor.js').read_text()
+          marker='<!-- NOTES-PRO-0.12.38 -->'
           if marker not in s: s=s.replace('</body>',marker+'<script>'+j+'</script></body>')
           p.write_text(s)
           PY
           cat > update-manifest.json <<'EOF'
-          {"product":"LuMa Slate","channel":"stable","latestUiVersion":"0.12.37","minimumShellVersion":"1.1.0","publishedAt":"2026-08-30T16:22:00+02:00","mandatory":false,"releaseNotes":["Pixel-aligns the bottom edge of the three Notes status pills to the rendered bottom edge of the Notes title","Measures the actual BOOX-rendered elements instead of using a fixed vertical offset","Keeps horizontal position and pill size unchanged","Keeps all confirmed Notes functionality unchanged","No APK required"]}
+          {"product":"LuMa Slate","channel":"stable","latestUiVersion":"0.12.38","minimumShellVersion":"1.1.0","publishedAt":"2026-08-30T16:26:00+02:00","mandatory":false,"releaseNotes":["Aligns the bottom edge of the three Notes status pills to the actual text baseline of the visible word Notes rather than the h1 element box","Uses an inline baseline marker inside the Notes heading to avoid line-height and margin errors","Keeps pill size and horizontal position unchanged","Keeps all confirmed Notes functionality unchanged","No APK required"]}
           EOF
       - name: Commit stable release
         run: |
           git config user.name 'LuMa Slate Release Bot'; git config user.email 'actions@users.noreply.github.com'
           git add index.html update-manifest.json
-          git commit -m 'fix(notes): publish 0.12.37 pixel-align status pills' || exit 0
+          git commit -m 'fix(notes): publish 0.12.38 visible text alignment' || exit 0
           git push
