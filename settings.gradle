@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 
 rootProject.name = 'LuMaSlate'
 include ':app'
+include ':luma-labs-launcher'
+include ':luma-radar-launcher'
