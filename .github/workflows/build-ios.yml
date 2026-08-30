@@ -16,6 +16,13 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
+      - name: Generate LuMa Slate app icon
+        run: |
+          SDKROOT="" xcrun --sdk macosx swift \
+            ios/LuMaSlate/GenerateAppIcon.swift \
+            ios/LuMaSlate/Assets.xcassets/AppIcon.appiconset/LuMaSlateIcon.png
+          test -f ios/LuMaSlate/Assets.xcassets/AppIcon.appiconset/LuMaSlateIcon.png
+
       - name: Build LuMa Slate for iPad Simulator
         run: |
           xcodebuild \
