@@ -1,4 +1,4 @@
-name: Notes 0.12.40 publisher
+name: Notes 0.12.41 publisher
 on:
   push:
     paths:
@@ -10,26 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Consolidate Notes header and publish 0.12.40
+      - name: Publish Notes 0.12.41 photo-corrected alignment
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import re
-          p=Path('index.html'); s=p.read_text()
-          for v in range(33,40):
-              s=re.sub(r'<!-- NOTES-PRO-0\.12\.%d -->\s*<script>.*?</script>'%v,'',s,flags=re.S)
-          j=Path('notes-01240-header-final.js').read_text()
-          marker='<!-- NOTES-PRO-0.12.40 -->'
-          if marker not in s:
-              s=s.replace('</body>',marker+'<script>'+j+'</script></body>')
+          p=Path('index.html'); s=p.read_text(); j=Path('notes-01241-header-photo-fix.js').read_text()
+          marker='<!-- NOTES-PRO-0.12.41 -->'
+          if marker not in s: s=s.replace('</body>',marker+'<script>'+j+'</script></body>')
           p.write_text(s)
           PY
           cat > update-manifest.json <<'EOF'
-          {"product":"LuMa Slate","channel":"stable","latestUiVersion":"0.12.40","minimumShellVersion":"1.1.0","publishedAt":"2026-08-30T16:38:00+02:00","mandatory":false,"releaseNotes":["Removes conflicting Notes header alignment hotfixes 0.12.33 through 0.12.39 from the active index","Replaces them with one consolidated Notes header implementation","Moves the three status pills clearly upward so their lower border aligns with the visible lower edge of the Notes lettering on the BOOX portrait layout","Keeps confirmed pill size and horizontal centering unchanged","Keeps all confirmed Notes editor and fullscreen behavior unchanged","No APK required"]}
+          {"product":"LuMa Slate","channel":"stable","latestUiVersion":"0.12.41","minimumShellVersion":"1.1.0","publishedAt":"2026-08-30T16:44:00+02:00","mandatory":false,"releaseNotes":["Corrects the vertical direction after reviewing the real BOOX photo","Moves the three status pills downward by 60 CSS pixels relative to 0.12.40 so their lower border aligns with the visible bottom of the Notes lettering","Keeps pill size and horizontal position unchanged","Keeps all confirmed Notes functionality unchanged","No APK required"]}
           EOF
       - name: Commit stable release
         run: |
           git config user.name 'LuMa Slate Release Bot'; git config user.email 'actions@users.noreply.github.com'
           git add index.html update-manifest.json
-          git commit -m 'fix(notes): publish 0.12.40 consolidated header' || exit 0
+          git commit -m 'fix(notes): publish 0.12.41 photo-corrected alignment' || exit 0
           git push
