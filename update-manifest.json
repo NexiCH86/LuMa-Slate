@@ -1,19 +1,19 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.17",
+  "latestUiVersion": "0.12.18",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T12:52:00+02:00",
+  "publishedAt": "2026-08-30T13:02:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Emergency stabilization after 0.12.16: normal BOOX text input and caret interaction are restored",
-    "All stacked Notes hotfix scripts 0.12.8 through 0.12.16 are removed from the delivered index so their old listeners can no longer compete",
-    "Exactly one large 52px BOOX-safe resize handle remains; legacy and rich-text handles are suppressed",
-    "The rich-text overlay introduced in 0.12.16 is removed because it blocked writing on the real BOOX device",
-    "Text block width and height are saved on input, resize, blur and before tool switches, then restored from canonical note geometry",
-    "Automatic growth expands to the right while space remains and then downward when wrapping is needed",
-    "The stable text options row and delete confirmation remain available",
-    "Per-character mixed text colors are temporarily deferred until the core editor is hardware-stable; this release prioritizes reliable writing and geometry",
+    "Keeps the hardware-confirmed single large resize handle from 0.12.17",
+    "Text block geometry no longer grows downward on every keystroke; automatic growth now happens only when content actually reaches the current block boundary",
+    "When automatic growth is needed, width grows first in larger steps while page space remains, then height grows only after real vertical overflow",
+    "Text colors are now stored per character while the native BOOX textarea remains the actual input control",
+    "With no selection, choosing a color changes only the insertion color from the current cursor onward; existing text keeps its previous color",
+    "With a selection, choosing a color recolors only the selected characters",
+    "Mixed colors are rendered by a passive color layer while the native textarea keeps keyboard, caret and selection handling",
+    "Width and height remain persisted across Text/Pen/Marker/Eraser mode switches",
     "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
