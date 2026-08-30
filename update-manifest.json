@@ -1,17 +1,17 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.11",
+  "latestUiVersion": "0.12.12",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T12:02:00+02:00",
+  "publishedAt": "2026-08-30T12:12:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Text blocks keep their readable content height when switching from Text to Pen, Marker or Eraser",
-    "A dedicated persistent Aa Textoptionen button replaces the unreliable flashing BOOX popup path",
-    "Empty text blocks are automatically removed when leaving Text mode or after an empty block loses focus",
-    "The text options panel also includes an explicit Textblock löschen action for manual cleanup",
-    "Automatic text growth continues horizontally to the right and then vertically after wrapping",
-    "Text content, formatting, size and position remain persisted",
+    "Text block width and height are now persisted before every tool switch and restored exactly after the Notes view is rebuilt",
+    "Pen, Marker and Eraser modes keep the same saved text block geometry instead of reverting to the default block size",
+    "Text options are now integrated into the same contextual options area used by Pen and Marker",
+    "The floating Aa Textoptionen button and floating panel are retired from the active UI",
+    "Text mode shows font, size, bold, italic, underline and delete controls directly below the tool selector",
+    "Automatic cleanup of empty text blocks remains enabled",
     "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
