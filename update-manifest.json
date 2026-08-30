@@ -1,17 +1,17 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.2",
+  "latestUiVersion": "0.12.3",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T10:52:00+02:00",
+  "publishedAt": "2026-08-30T11:05:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Notes Pro 0.12.2 combines positioned text blocks and handwriting on the same page",
-    "Text mode lets you tap a position and type there while existing ink remains visible",
-    "Added Fineliner, ballpoint, pencil, fountain pen, brush pen and felt-tip styles",
-    "Expanded Kaleido-friendly pen colors and added independent marker colors",
-    "Added fullscreen Notes writing mode with compact active-tool status",
-    "Projects can be created directly from Notes and stored in the shared project registry",
-    "Existing Notes v2 data is retained; Shell 1.1.0 remains sufficient"
+    "Notes Pro now shows only settings relevant to the selected tool",
+    "Pen mode shows pen style, thickness and pen colors only",
+    "Marker mode shows marker colors, width and opacity only",
+    "Text mode adds font family, font size, text color, bold, italic, underline and alignment",
+    "Added text presets for Title, Body and Quote plus bullet list, checklist and highlight background helpers",
+    "Text formatting is stored per positioned text block so mixed handwriting and formatted text remain on the same page",
+    "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
