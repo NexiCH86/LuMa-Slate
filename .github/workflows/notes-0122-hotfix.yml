@@ -1,4 +1,4 @@
-name: Notes 0.12.32 publisher
+name: Notes 0.12.33 publisher
 on:
   push:
     paths:
@@ -10,21 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inline Notes 0.12.32 main cleanup
+      - name: Inline Notes 0.12.33 header status
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          p=Path('index.html'); s=p.read_text(); j=Path('notes-01232-main-cleanup.js').read_text()
-          marker='<!-- NOTES-PRO-0.12.32 -->'
+          p=Path('index.html'); s=p.read_text(); j=Path('notes-01233-header-status.js').read_text()
+          marker='<!-- NOTES-PRO-0.12.33 -->'
           if marker not in s: s=s.replace('</body>',marker+'<script>'+j+'</script></body>')
           p.write_text(s)
           PY
           cat > update-manifest.json <<'EOF'
-          {"product":"LuMa Slate","channel":"stable","latestUiVersion":"0.12.32","minimumShellVersion":"1.1.0","publishedAt":"2026-08-30T16:02:00+02:00","mandatory":false,"releaseNotes":["Removes the redundant manual Speichern action from the normal Notes screen because Notes uses Autosave","Removes the large Mit LuMa AI öffnen action from the normal Notes screen; contextual LuMa AI actions are tracked separately for a later release","Removes the Notes Pro 0.9 Autosave information card to reclaim vertical workspace","Removes the stale 0.12.2 version from the daily Notes sidebar while keeping the Notes Pro label","Keeps the hardware-confirmed Notes 0.12.31 editor, deletion, Pen/Marker isolation and fullscreen behavior unchanged","No APK required"]}
+          {"product":"LuMa Slate","channel":"stable","latestUiVersion":"0.12.33","minimumShellVersion":"1.1.0","publishedAt":"2026-08-30T16:06:00+02:00","mandatory":false,"releaseNotes":["Adds compact Notes status pills to the right of the Notes title: TEXT + INK, AUTOSAVE and SYNC READY","SYNC is intentionally future-ready and can later display Synchronisiert, Offline or Sync Fehler from LuMa Sync state","Keeps the header compact and E-Ink friendly without adding another information card below Notes","Keeps the confirmed 0.12.32 Notes workspace and editor behavior unchanged","No APK required"]}
           EOF
       - name: Commit stable release
         run: |
           git config user.name 'LuMa Slate Release Bot'; git config user.email 'actions@users.noreply.github.com'
           git add index.html update-manifest.json
-          git commit -m 'feat(notes): publish 0.12.32 clean Notes main workspace' || exit 0
+          git commit -m 'feat(notes): publish 0.12.33 compact status header' || exit 0
           git push
