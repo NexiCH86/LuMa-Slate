@@ -10,33 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Add resizable text blocks and update manifest
+      - name: Inline Notes 0.12.8 patch and update manifest
         run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p=Path('index.html')
-          s=p.read_text()
-          marker='<!-- NOTES-PRO-0.12.8 -->'
-          js=r'''(()=>{'use strict';
-const KEY='luma.notes.v2';
-const rd=()=>{try{return JSON.parse(localStorage.getItem(KEY))}catch{return null}};
-const wr=s=>{try{localStorage.setItem(KEY,JSON.stringify(s))}catch{}};
-function current(tid){const s=rd();if(!s)return{};const n=(s.notes||[]).find(x=>x.id===s.activeId);if(!n)return{s};const i=Math.max(0,Math.min(Number(s.page)||0,(n.pages?.length||1)-1)),p=n.pages?.[i],t=p?.texts?.find(x=>x.id===tid);return{s,n,p,t};}
-function css(){if(document.getElementById('np128css'))return;const x=document.createElement('style');x.id='np128css';x.textContent=`#np122.textmode .np122-text{resize:both!important;overflow:auto!important;min-width:90px!important;min-height:48px!important;max-width:98%!important;max-height:98%!important;box-sizing:border-box!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important}#np122.textmode .np122-text:focus{outline:2px solid #006B70!important;outline-offset:1px}#np122:not(.textmode) .np122-text{resize:none!important;overflow:hidden!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important}`;document.head.appendChild(x)}
-function persist(el){const tid=el.dataset.tid;if(!tid)return;const paper=document.getElementById('nPaper');if(!paper)return;const {s,n,t}=current(tid);if(!s||!n||!t)return;const pr=paper.getBoundingClientRect(),r=el.getBoundingClientRect();if(!pr.width||!pr.height)return;t.w=Math.max(.08,Math.min(.98,(r.width/pr.width)));t.h=Math.max(.04,Math.min(.98,(r.height/pr.height)));t.x=Math.max(0,Math.min(1-t.w,(r.left-pr.left)/pr.width));t.y=Math.max(0,Math.min(1-t.h,(r.top-pr.top)/pr.height));t.text=el.value;n.updatedAt=Date.now();wr(s);}
-function enhance(){css();const paper=document.getElementById('nPaper');if(!paper)return;paper.querySelectorAll('.np122-text').forEach(el=>{const {t}=current(el.dataset.tid);if(t){if(t.w)el.style.width=(t.w*100)+'%';if(t.h)el.style.height=(t.h*100)+'%';}if(el.dataset.np128)return;el.dataset.np128='1';let ro;if('ResizeObserver'in window){ro=new ResizeObserver(()=>persist(el));ro.observe(el)}el.addEventListener('pointerup',()=>persist(el));el.addEventListener('change',()=>persist(el));el.addEventListener('blur',()=>persist(el));});}
-let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(enhance,30)}).observe(document.documentElement,{childList:true,subtree:true});document.addEventListener('click',e=>{if(e.target.closest?.('#np122 [data-tool]'))setTimeout(enhance,50)});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enhance,{once:true});else enhance();console.info('LuMa Slate Notes 0.12.8 resizable text blocks ready');})();'''
-          if marker not in s:
-              s=s.replace('</body>',marker+'<script>'+js+'</script></body>')
-          p.write_text(s)
-          PY
+          python3 -c "from pathlib import Path; p=Path('index.html'); s=p.read_text(); j=Path('notes-0128-patch.js').read_text(); marker='<!-- NOTES-PRO-0.12.8 -->'; s=s if marker in s else s.replace('</body>', marker+'<script>'+j+'</script></body>'); p.write_text(s)"
           cat > update-manifest.json <<'EOF'
           {
             "product": "LuMa Slate",
             "channel": "stable",
             "latestUiVersion": "0.12.8",
             "minimumShellVersion": "1.1.0",
-            "publishedAt": "2026-08-30T11:55:00+02:00",
+            "publishedAt": "2026-08-30T12:05:00+02:00",
             "mandatory": false,
             "releaseNotes": [
               "Text blocks can now be freely resized in Text mode from small labels up to almost the full note page",
