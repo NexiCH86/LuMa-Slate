@@ -1,4 +1,4 @@
-name: Notes 0.12.13 publisher
+name: Notes 0.12.14 publisher
 on:
   push:
     paths:
@@ -10,23 +10,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inline Notes 0.12.13 patch and update manifest
+      - name: Inline Notes 0.12.14 patch and update manifest
         run: |
-          python3 -c "from pathlib import Path; p=Path('index.html'); s=p.read_text(); j=Path('notes-01213-patch.js').read_text(); marker='<!-- NOTES-PRO-0.12.13 -->'; s=s if marker in s else s.replace('</body>', marker+'<script>'+j+'</script></body>'); p.write_text(s)"
+          python3 -c "from pathlib import Path; p=Path('index.html'); s=p.read_text(); j=Path('notes-01214-patch.js').read_text(); marker='<!-- NOTES-PRO-0.12.14 -->'; s=s if marker in s else s.replace('</body>', marker+'<script>'+j+'</script></body>'); p.write_text(s)"
           cat > update-manifest.json <<'EOF'
           {
             "product": "LuMa Slate",
             "channel": "stable",
-            "latestUiVersion": "0.12.13",
+            "latestUiVersion": "0.12.14",
             "minimumShellVersion": "1.1.0",
-            "publishedAt": "2026-08-30T12:18:00+02:00",
+            "publishedAt": "2026-08-30T12:24:00+02:00",
             "mandatory": false,
             "releaseNotes": [
-              "All visible text block dimensions are saved before every tool switch, so older handlers cannot lose the active block geometry",
-              "Saved text block width and height are enforced through canonical CSS variables with important rules across Text, Pen, Marker and Eraser modes",
-              "Text controls now render as a sibling directly below the standard options row, avoiding legacy popup click handlers while keeping the same visual position as Pen and Marker options",
-              "Legacy floating text option panels and the previous inline bar remain hidden",
-              "Automatic cleanup of empty text blocks remains enabled",
+              "Textblock löschen now opens a LuMa confirmation dialog with Abbrechen and Löschen before any text is removed",
+              "A dedicated BOOX-safe resize handle restores manual text block resizing without relying on the browser-native resize implementation",
+              "Text blocks once again grow automatically to the right while space is available and then downward as text wraps",
+              "Manual and automatic width/height changes are persisted immediately and remain canonical across tool switches",
+              "The stable text options row from 0.12.13 remains unchanged in its current position",
+              "Empty text block cleanup remains enabled",
               "No new APK is required; Shell 1.1.0 remains sufficient"
             ]
           }
@@ -36,5 +37,5 @@ jobs:
           git config user.name 'LuMa Slate Release Bot'
           git config user.email 'actions@users.noreply.github.com'
           git add index.html update-manifest.json
-          git commit -m 'fix(notes): publish Notes Pro 0.12.13 canonical geometry and stable toolbar' || exit 0
+          git commit -m 'fix(notes): publish Notes Pro 0.12.14 resize auto-growth and delete confirmation' || exit 0
           git push
