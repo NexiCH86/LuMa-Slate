@@ -1,17 +1,18 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.15",
+  "latestUiVersion": "0.12.16",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T12:32:00+02:00",
+  "publishedAt": "2026-08-30T12:45:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Legacy text formatting popups are now permanently suppressed in Text mode to stop the brief flash seen on BOOX",
-    "The stable text options row now includes the missing text colors plus alignment, presets, list, checklist and highlight controls",
-    "Manual resize now uses a document-level pointer/touch drag implementation with a larger BOOX-safe handle",
-    "Automatic text block growth again expands to the right first and then downward when wrapping is required",
-    "Width and height are persisted after manual resize, automatic growth and before tool switches",
-    "Textblock löschen keeps the LuMa confirmation dialog with Abbrechen and Löschen",
+    "Text blocks now use a rich-text editing overlay while keeping the existing Notes data model and BOOX-safe base renderer underneath",
+    "Text colors are now cursor/selection based: type in black, switch to red and continue typing in red without recoloring the previous text",
+    "Bold, italic and underline also work on the current selection or from the current cursor position",
+    "Automatic text block growth expands to the right first and then downward as required",
+    "Width and height are persisted continuously and restored from saved note geometry after Text/Pen/Marker/Eraser mode switches",
+    "Manual resize uses the dedicated BOOX-safe handle and saves dimensions while dragging",
+    "Textblock deletion keeps the LuMa confirmation dialog",
     "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
