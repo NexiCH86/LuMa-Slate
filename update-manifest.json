@@ -1,16 +1,16 @@
 {
   "product": "LuMa Slate",
   "channel": "stable",
-  "latestUiVersion": "0.12.5",
+  "latestUiVersion": "0.12.6",
   "minimumShellVersion": "1.1.0",
-  "publishedAt": "2026-08-30T11:28:00+02:00",
+  "publishedAt": "2026-08-30T11:36:00+02:00",
   "mandatory": false,
   "releaseNotes": [
-    "Repairs Text mode so tapping an empty point on the note page creates and focuses a positioned text block",
-    "Keeps handwriting and marker ink above typed text in Pen and Marker modes",
-    "Replaces browser confirmation dialogs with LuMa Slate in-app confirmation dialogs for Ink löschen and Notiz löschen",
-    "Ink löschen clears only handwriting and marker strokes on the current page after confirmation",
-    "Notiz löschen removes the complete note only after explicit confirmation",
+    "Removes the temporary 'Hier tippen' helper box from Notes Text mode",
+    "Text blocks can now be placed anywhere on the page by tapping a free position",
+    "Text fields are created directly in the trusted pointer gesture and focused immediately for improved BOOX keyboard activation",
+    "Legacy delayed text placement is suppressed to prevent the text field from flashing and disappearing",
+    "Existing Pen, Marker, formatting and deletion confirmation behavior is retained",
     "No new APK is required; Shell 1.1.0 remains sufficient"
   ]
 }
