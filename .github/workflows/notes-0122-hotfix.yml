@@ -1,4 +1,4 @@
-name: Notes 0.12.31 publisher
+name: Notes 0.12.32 publisher
 on:
   push:
     paths:
@@ -10,21 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inline Notes 0.12.31 strict mode isolation
+      - name: Inline Notes 0.12.32 main cleanup
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          p=Path('index.html'); s=p.read_text(); j=Path('notes-01231-mode-isolation.js').read_text()
-          marker='<!-- NOTES-PRO-0.12.31 -->'
+          p=Path('index.html'); s=p.read_text(); j=Path('notes-01232-main-cleanup.js').read_text()
+          marker='<!-- NOTES-PRO-0.12.32 -->'
           if marker not in s: s=s.replace('</body>',marker+'<script>'+j+'</script></body>')
           p.write_text(s)
           PY
           cat > update-manifest.json <<'EOF'
-          {"product":"LuMa Slate","channel":"stable","latestUiVersion":"0.12.31","minimumShellVersion":"1.1.0","publishedAt":"2026-08-30T15:42:00+02:00","mandatory":false,"releaseNotes":["Restores strict Pen/Marker option separation that was unintentionally removed when 0.12.30 replaced the 0.12.29 combined patch","Pen mode shows only Pen-Art, Pen thickness and Pen colors","Marker mode shows only Marker colors, Marker thickness and opacity","The isolation is reapplied after every tool/color/thickness/style rerender on BOOX","Keeps the now-working 0.12.30 note deletion and hardware-confirmed fullscreen unchanged","No APK required"]}
+          {"product":"LuMa Slate","channel":"stable","latestUiVersion":"0.12.32","minimumShellVersion":"1.1.0","publishedAt":"2026-08-30T16:02:00+02:00","mandatory":false,"releaseNotes":["Removes the redundant manual Speichern action from the normal Notes screen because Notes uses Autosave","Removes the large Mit LuMa AI öffnen action from the normal Notes screen; contextual LuMa AI actions are tracked separately for a later release","Removes the Notes Pro 0.9 Autosave information card to reclaim vertical workspace","Removes the stale 0.12.2 version from the daily Notes sidebar while keeping the Notes Pro label","Keeps the hardware-confirmed Notes 0.12.31 editor, deletion, Pen/Marker isolation and fullscreen behavior unchanged","No APK required"]}
           EOF
       - name: Commit stable release
         run: |
           git config user.name 'LuMa Slate Release Bot'; git config user.email 'actions@users.noreply.github.com'
           git add index.html update-manifest.json
-          git commit -m 'fix(notes): publish 0.12.31 strict Pen Marker option isolation' || exit 0
+          git commit -m 'feat(notes): publish 0.12.32 clean Notes main workspace' || exit 0
           git push
