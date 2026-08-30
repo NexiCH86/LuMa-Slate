@@ -1,0 +1,80 @@
+name: Build LuMa Launcher APKs
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/luma-launcher-apks
+    paths:
+      - 'luma-labs-launcher/**'
+      - 'luma-radar-launcher/**'
+      - 'settings.gradle'
+      - '.github/workflows/build-launcher-apks.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android platform
+        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+
+      - name: Restore LuMa release keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.LUMA_ANDROID_KEYSTORE_BASE64 }}
+        shell: bash
+        run: |
+          test -n "$KEYSTORE_BASE64"
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/luma-release.jks"
+          chmod 600 "$RUNNER_TEMP/luma-release.jks"
+
+      - name: Build signed launcher APKs
+        env:
+          LUMA_ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/luma-release.jks
+          LUMA_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.LUMA_ANDROID_KEYSTORE_PASSWORD }}
+          LUMA_ANDROID_KEY_ALIAS: ${{ secrets.LUMA_ANDROID_KEY_ALIAS }}
+          LUMA_ANDROID_KEY_PASSWORD: ${{ secrets.LUMA_ANDROID_KEY_PASSWORD }}
+        run: gradle :luma-labs-launcher:assembleRelease :luma-radar-launcher:assembleRelease --stacktrace
+
+      - name: Verify and stage APKs
+        run: |
+          APKSIGNER="$ANDROID_SDK_ROOT/build-tools/35.0.0/apksigner"
+          LABS='luma-labs-launcher/build/outputs/apk/release/luma-labs-launcher-release.apk'
+          RADAR='luma-radar-launcher/build/outputs/apk/release/luma-radar-launcher-release.apk'
+          "$APKSIGNER" verify --verbose --print-certs "$LABS"
+          "$APKSIGNER" verify --verbose --print-certs "$RADAR"
+          cp "$LABS" LuMa-Labs-1.0.0.apk
+          cp "$RADAR" LuMa-Radar-1.0.0.apk
+
+      - name: Upload LuMa Labs APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: LuMa-Labs-1.0.0
+          path: LuMa-Labs-1.0.0.apk
+          retention-days: 90
+
+      - name: Upload LuMa Radar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: LuMa-Radar-1.0.0
+          path: LuMa-Radar-1.0.0.apk
+          retention-days: 90
