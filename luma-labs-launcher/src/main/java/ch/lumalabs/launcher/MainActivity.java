@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 public class MainActivity extends Activity {
+    // Lightweight native shortcut to the LuMa Labs homepage.
     private static final Uri TARGET = Uri.parse("https://lumalabs.ch/");
 
     @Override
