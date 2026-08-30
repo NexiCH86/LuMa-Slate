@@ -72,11 +72,11 @@ jobs:
             exit 1
           fi
           "$APKSIGNER" verify --verbose --print-certs "$APK"
-          cp "$APK" LuMa-Slate-Shell-1.1.0-release.apk
+          cp "$APK" LuMa-Slate-Shell-1.1.1-release.apk
 
       - name: Upload release APK
         uses: actions/upload-artifact@v4
         with:
-          name: LuMa-Slate-Shell-1.1.0-release
-          path: LuMa-Slate-Shell-1.1.0-release.apk
+          name: LuMa-Slate-Shell-1.1.1-release
+          path: LuMa-Slate-Shell-1.1.1-release.apk
           retention-days: 90
