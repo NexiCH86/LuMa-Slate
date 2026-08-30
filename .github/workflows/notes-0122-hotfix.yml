@@ -1,4 +1,4 @@
-name: Notes 0.12.10 publisher
+name: Notes 0.12.11 publisher
 on:
   push:
     paths:
@@ -10,24 +10,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inline Notes 0.12.10 patch and update manifest
+      - name: Inline Notes 0.12.11 patch and update manifest
         run: |
-          python3 -c "from pathlib import Path; p=Path('index.html'); s=p.read_text(); j=Path('notes-01210-patch.js').read_text(); marker='<!-- NOTES-PRO-0.12.10 -->'; s=s if marker in s else s.replace('</body>', marker+'<script>'+j+'</script></body>'); p.write_text(s)"
+          python3 -c "from pathlib import Path; p=Path('index.html'); s=p.read_text(); j=Path('notes-01211-patch.js').read_text(); marker='<!-- NOTES-PRO-0.12.11 -->'; s=s if marker in s else s.replace('</body>', marker+'<script>'+j+'</script></body>'); p.write_text(s)"
           cat > update-manifest.json <<'EOF'
           {
             "product": "LuMa Slate",
             "channel": "stable",
-            "latestUiVersion": "0.12.10",
+            "latestUiVersion": "0.12.11",
             "minimumShellVersion": "1.1.0",
-            "publishedAt": "2026-08-30T12:28:00+02:00",
+            "publishedAt": "2026-08-30T12:02:00+02:00",
             "mandatory": false,
             "releaseNotes": [
-              "Text blocks now grow horizontally to the right while typing until the available page width is reached",
-              "After reaching the available width, text wraps and the block continues to grow vertically",
-              "Automatic growth always respects the right and bottom page boundaries",
-              "The large E-Ink friendly manual resize handle remains available for deliberate resizing",
-              "The persistent LuMa text-options panel and non-clipping Pen/Marker display remain enabled",
-              "Text content, formatting, size and position remain persisted across tool changes and reloads",
+              "Text blocks keep their readable content height when switching from Text to Pen, Marker or Eraser",
+              "A dedicated persistent Aa Textoptionen button replaces the unreliable flashing BOOX popup path",
+              "Empty text blocks are automatically removed when leaving Text mode or after an empty block loses focus",
+              "The text options panel also includes an explicit Textblock löschen action for manual cleanup",
+              "Automatic text growth continues horizontally to the right and then vertically after wrapping",
+              "Text content, formatting, size and position remain persisted",
               "No new APK is required; Shell 1.1.0 remains sufficient"
             ]
           }
@@ -37,5 +37,5 @@ jobs:
           git config user.name 'LuMa Slate Release Bot'
           git config user.email 'actions@users.noreply.github.com'
           git add index.html update-manifest.json
-          git commit -m 'feat(notes): publish Notes Pro 0.12.10 adaptive text growth' || exit 0
+          git commit -m 'fix(notes): publish Notes Pro 0.12.11 text stability' || exit 0
           git push
