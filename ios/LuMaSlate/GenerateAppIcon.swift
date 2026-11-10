@@ -12,44 +12,47 @@ context.setFillColor(NSColor(calibratedRed: 22/255, green: 31/255, blue: 34/255,
 context.fill(CGRect(origin: .zero, size: size))
 
 let bg = NSBezierPath(roundedRect: NSRect(x: 36, y: 36, width: 952, height: 952), xRadius: 220, yRadius: 220)
-NSColor(calibratedRed: 28/255, green: 40/255, blue: 44/255, alpha: 1).setFill()
+NSColor(calibratedRed: 26/255, green: 38/255, blue: 41/255, alpha: 1).setFill()
 bg.fill()
 
-// BOG Note "BN" monogram (Abicht blue + gold). Coordinates: y measured from bottom (AppKit).
-let blue = NSColor(calibratedRed: 0/255, green: 145/255, blue: 186/255, alpha: 1)
-let blueLight = NSColor(calibratedRed: 51/255, green: 167/255, blue: 203/255, alpha: 1)
-let gold = NSColor(calibratedRed: 188/255, green: 169/255, blue: 91/255, alpha: 1)
-
-func polygon(_ points: [CGPoint], into path: NSBezierPath) {
-    guard let first = points.first else { return }
-    path.move(to: first)
-    for point in points.dropFirst() { path.line(to: point) }
-    path.close()
-}
-
-func fillPolygons(_ shapes: [[CGPoint]], color: NSColor, evenOdd: Bool = false) {
+func fillPolygon(_ points: [CGPoint], color: NSColor) {
     let p = NSBezierPath()
-    if evenOdd { p.windingRule = .evenOdd }
-    for shape in shapes { polygon(shape, into: p) }
+    guard let first = points.first else { return }
+    p.move(to: first)
+    for point in points.dropFirst() { p.line(to: point) }
+    p.close()
     color.setFill()
     p.fill()
 }
 
-// B with two counters
-fillPolygons([
-    [CGPoint(x: 150, y: 824), CGPoint(x: 400, y: 824), CGPoint(x: 460, y: 764), CGPoint(x: 460, y: 604),
-     CGPoint(x: 425, y: 569), CGPoint(x: 470, y: 524), CGPoint(x: 470, y: 260), CGPoint(x: 410, y: 200), CGPoint(x: 150, y: 200)],
-    [CGPoint(x: 220, y: 759), CGPoint(x: 375, y: 759), CGPoint(x: 395, y: 739), CGPoint(x: 395, y: 624), CGPoint(x: 375, y: 604), CGPoint(x: 220, y: 604)],
-    [CGPoint(x: 220, y: 534), CGPoint(x: 390, y: 534), CGPoint(x: 405, y: 519), CGPoint(x: 405, y: 285), CGPoint(x: 385, y: 265), CGPoint(x: 220, y: 265)]
-], color: blue, evenOdd: true)
+let cyan = NSColor(calibratedRed: 0/255, green: 215/255, blue: 230/255, alpha: 1)
+let cyan2 = NSColor(calibratedRed: 0/255, green: 175/255, blue: 194/255, alpha: 1)
 
-// N stems
-fillPolygons([[CGPoint(x: 560, y: 200), CGPoint(x: 630, y: 200), CGPoint(x: 630, y: 824), CGPoint(x: 560, y: 824)]], color: blue)
-fillPolygons([[CGPoint(x: 804, y: 200), CGPoint(x: 874, y: 200), CGPoint(x: 874, y: 824), CGPoint(x: 804, y: 824)]], color: blueLight)
+fillPolygon([
+    CGPoint(x: 155, y: 844), CGPoint(x: 155, y: 234), CGPoint(x: 470, y: 234),
+    CGPoint(x: 410, y: 294), CGPoint(x: 225, y: 294), CGPoint(x: 225, y: 844)
+], color: cyan)
 
-// N diagonal as gold pen stroke
-fillPolygons([[CGPoint(x: 560, y: 824), CGPoint(x: 642, y: 824), CGPoint(x: 874, y: 282),
-               CGPoint(x: 874, y: 200), CGPoint(x: 792, y: 200), CGPoint(x: 560, y: 742)]], color: gold)
+fillPolygon([
+    CGPoint(x: 330, y: 694), CGPoint(x: 510, y: 514), CGPoint(x: 705, y: 724),
+    CGPoint(x: 705, y: 289), CGPoint(x: 775, y: 234), CGPoint(x: 775, y: 844),
+    CGPoint(x: 510, y: 594), CGPoint(x: 330, y: 774)
+], color: cyan2)
+
+func stroke(_ points: [CGPoint]) {
+    let p = NSBezierPath()
+    guard let first = points.first else { return }
+    p.move(to: first)
+    for point in points.dropFirst() { p.line(to: point) }
+    p.lineWidth = 18
+    p.lineJoinStyle = .round
+    cyan.setStroke()
+    p.stroke()
+}
+
+stroke([CGPoint(x: 760, y: 839), CGPoint(x: 835, y: 874), CGPoint(x: 910, y: 839), CGPoint(x: 835, y: 804), CGPoint(x: 760, y: 839)])
+stroke([CGPoint(x: 760, y: 796), CGPoint(x: 835, y: 761), CGPoint(x: 910, y: 796)])
+stroke([CGPoint(x: 760, y: 762), CGPoint(x: 835, y: 727), CGPoint(x: 910, y: 762)])
 
 image.unlockFocus()
 
