@@ -23,40 +23,40 @@ BOG Note is a portrait-first E-Ink engineering workspace for the ONYX BOOX Tab U
 - Offline cache via Service Worker
 - Web App Manifest configured for portrait mode
 
-### Block 02 – LuMa Library
+### Block 02 – BOG Library
 
 - Searchable document list
 - Recent, favorites and offline filters
 - Categories for standards, technical books, manuals and courses
 - Reading-progress indicators
-- LuMa Sync status area
+- BOG Sync status area
 
-### Block 03 – LuMa Reader
+### Block 03 – BOG Reader
 
 - Library-to-Reader document flow
 - Document title, page counter and page navigation
 - E-Ink-oriented paper view
 - Pen, marker, bookmark and focus controls
-- Document context handoff to LuMa AI
+- Document context handoff to BOG AI
 
-### Block 04 – LuMa Work
+### Block 04 – BOG Work
 
 - Project overview and project selection
 - Progress and task counters
 - Next-actions checklist
 - Active project detail area
-- Project context handoff to LuMa AI
+- Project context handoff to BOG AI
 
-### Block 05 – LuMa Notes + AI workspace
+### Block 05 – BOG Notes + AI workspace
 
 - Note list and note editor
 - Pen / marker / eraser / selection toolbar concept
 - New-note workflow
-- LuMa AI modes: Online, Local and Offline
+- BOG AI modes: Online, Local and Offline
 - Context switching between workspace, document, project and notes
-- Connected UI flow from Reader, Work and Notes into LuMa AI
+- Connected UI flow from Reader, Work and Notes into BOG AI
 
-### Block 06 – LuMa Update Core
+### Block 06 – BOG Update Core
 
 - Independent UI and Android-shell versioning
 - `update-manifest.json` stable release channel
@@ -87,16 +87,16 @@ Then open `http://localhost:8080`.
 
 ## Architecture direction
 
-The prototype deliberately stays framework-free while we validate it on the real BOOX hardware. The current V0.6 is an interactive UI prototype with the first OTA-update architecture in place. Document contents, projects, notes and AI answers are still demo data. The next engineering phase connects these screens to local Android storage, BOOX capabilities, LuMa Sync and the LuMa AI backend.
+The prototype deliberately stays framework-free while we validate it on the real BOOX hardware. The current V0.6 is an interactive UI prototype with the first OTA-update architecture in place. Document contents, projects, notes and AI answers are still demo data. The next engineering phase connects these screens to local Android storage, BOOX capabilities, BOG Sync and the BOG AI backend.
 
 ## Next phases
 
 1. Deploy V0.6 and test it on the physical BOOX Tab Ultra C Pro.
 2. Tune scale, font weight, touch targets, ghosting and refresh behaviour.
 3. Build the long-lived Android shell around the OTA update architecture.
-4. Connect the Library to real local files and LuMa Sync.
+4. Connect the Library to real local files and BOG Sync.
 5. Implement real PDF rendering and the BOOX/Android annotation bridge.
-6. Connect LuMa AI online/local/offline backends.
+6. Connect BOG AI online/local/offline backends.
 7. Add device integration and optional default-launcher behaviour.
 
 ## Design principles

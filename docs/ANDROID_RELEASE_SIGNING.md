@@ -46,7 +46,7 @@ The GitHub workflow builds `:app:assembleRelease` only. It fails immediately whe
 
 Official artifact naming:
 
-`LuMa-Slate-Shell-1.0.1-release.apk`
+`BOG-Note-Shell-1.0.1-release.apk`
 
 ## Upgrade contract
 

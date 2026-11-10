@@ -13,7 +13,7 @@ BOG Note wird als plattformübergreifender Workspace entwickelt. BOOX ist die er
 
 ## Architekturprinzip
 
-BOG Note Core enthält plattformunabhängige UI, Navigation, Library-Metadaten, Reading State, Annotation-Datenmodell, Notes, Work, LuMa AI Context, Sync-State und Einstellungen.
+BOG Note Core enthält plattformunabhängige UI, Navigation, Library-Metadaten, Reading State, Annotation-Datenmodell, Notes, Work, BOG AI Context, Sync-State und Einstellungen.
 
 Native Bridges kapseln gerätespezifische Fähigkeiten:
 
@@ -24,7 +24,7 @@ Native Bridges kapseln gerätespezifische Fähigkeiten:
 ## Darstellungsprofile
 
 - E-Ink: hoher Kontrast, minimale Animationen, klare Flächen, E-Ink-taugliche Farben und Refresh-schonende Interaktion
-- Android Color: volle LuMa Labs Farbwelt, flüssigere Interaktionen, Multitasking und DeX
+- Android Color: volle BOG Labs Farbwelt, flüssigere Interaktionen, Multitasking und DeX
 - iPadOS: iPad-optimierte Touch-/Pencil-Interaktion bei gleichem BOG Note Produktmodell
 
 ## V1.0-Regel
@@ -33,4 +33,4 @@ BOOX bleibt die erste V1.0-Referenz. Neue Core-Funktionen werden ab sofort so ge
 
 ## Gemeinsame Datenmodelle
 
-Persistente Daten werden möglichst portabel und versioniert gespeichert: Dokument-Metadaten, Reading State, Annotationen, Notizen, Projekte, AI-Kontext und Sync-Metadaten. Dadurch sollen Geräte später denselben LuMa-Slate-Datenbestand über LuMa Sync/LuisServer verwenden können.
+Persistente Daten werden möglichst portabel und versioniert gespeichert: Dokument-Metadaten, Reading State, Annotationen, Notizen, Projekte, AI-Kontext und Sync-Metadaten. Dadurch sollen Geräte später denselben BOG-Note-Datenbestand über BOG Sync/LuisServer verwenden können.

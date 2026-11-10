@@ -25,7 +25,7 @@ Write-Host ""
     -keyalg RSA `
     -keysize 4096 `
     -validity 10000 `
-    -dname "CN=LuMa Labs, OU=BOG Note, O=LuMa Labs, L=Birr, ST=Aargau, C=CH"
+    -dname "CN=BOG Labs, OU=BOG Note, O=BOG Labs, L=Birr, ST=Aargau, C=CH"
 
 if ($LASTEXITCODE -ne 0) {
     throw "keytool failed with exit code $LASTEXITCODE"
