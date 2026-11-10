@@ -22,6 +22,6 @@ function sync(){css();build();const r=root();if(!r){hud.classList.remove('on');r
 function hideRedundantSave(){const r=root();if(!r)return;r.querySelectorAll('button').forEach(b=>{const t=b.textContent.trim().toLowerCase();if(t==='speichern'||t==='save')b.style.setProperty('display','none','important')})}
 document.addEventListener('fullscreenchange',()=>setTimeout(sync,0));document.addEventListener('pointerdown',e=>{if(e.target.closest?.('[data-tool]'))setTimeout(sync,30)},true);
 let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(()=>{hideRedundantSave();sync()},30)}).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
-function boot(){css();build();hideRedundantSave();sync();console.info('LuMa Slate Notes fullscreen cleanup '+V+' ready')}
+function boot(){css();build();hideRedundantSave();sync();console.info('BOG Note Notes fullscreen cleanup '+V+' ready')}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();

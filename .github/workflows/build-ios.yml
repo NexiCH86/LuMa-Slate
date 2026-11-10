@@ -19,10 +19,10 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
-      - name: Verify committed LuMa Slate app icon
+      - name: Verify committed BOG Note app icon
         run: test -f ios/LuMaSlate/Assets.xcassets/AppIcon.appiconset/LuMaSlateIcon.png
 
-      - name: Build LuMa Slate for iPad Simulator
+      - name: Build BOG Note for iPad Simulator
         run: |
           xcodebuild \
             -project ios/LuMaSlate.xcodeproj \
@@ -49,24 +49,24 @@ jobs:
         run: |
           set -e
           mkdir -p build/package/Payload
-          cp -R "build/ipados/LuMa Slate.app" "build/package/Payload/LuMa Slate.app"
-          (cd build/package && zip -qry ../LuMa-Slate-iPadOS-unsigned.ipa Payload)
-          (cd build/ipados && zip -qry ../LuMa-Slate-iPadOS-unsigned-app.zip "LuMa Slate.app")
-          shasum -a 256 build/LuMa-Slate-iPadOS-unsigned.ipa > build/LuMa-Slate-iPadOS-unsigned.ipa.sha256
-          ls -lh build/LuMa-Slate-iPadOS-unsigned.ipa build/LuMa-Slate-iPadOS-unsigned-app.zip
+          cp -R "build/ipados/BOG Note.app" "build/package/Payload/BOG Note.app"
+          (cd build/package && zip -qry ../BOG-Note-iPadOS-unsigned.ipa Payload)
+          (cd build/ipados && zip -qry ../BOG-Note-iPadOS-unsigned-app.zip "BOG Note.app")
+          shasum -a 256 build/BOG-Note-iPadOS-unsigned.ipa > build/BOG-Note-iPadOS-unsigned.ipa.sha256
+          ls -lh build/BOG-Note-iPadOS-unsigned.ipa build/BOG-Note-iPadOS-unsigned-app.zip
 
       - name: Upload iPadOS IPA
         uses: actions/upload-artifact@v4
         with:
-          name: LuMa-Slate-iPadOS-IPA
+          name: BOG-Note-iPadOS-IPA
           path: |
-            build/LuMa-Slate-iPadOS-unsigned.ipa
-            build/LuMa-Slate-iPadOS-unsigned.ipa.sha256
+            build/BOG-Note-iPadOS-unsigned.ipa
+            build/BOG-Note-iPadOS-unsigned.ipa.sha256
           retention-days: 30
 
       - name: Upload iPadOS app bundle
         uses: actions/upload-artifact@v4
         with:
-          name: LuMa-Slate-iPadOS-App
-          path: build/LuMa-Slate-iPadOS-unsigned-app.zip
+          name: BOG-Note-iPadOS-App
+          path: build/BOG-Note-iPadOS-unsigned-app.zip
           retention-days: 30

@@ -1,6 +1,6 @@
 # Device target – BOOX Tab Ultra C Pro
 
-LuMa Slate is designed around the physical device rather than a generic tablet breakpoint.
+BOG Note is designed around the physical device rather than a generic tablet breakpoint.
 
 ## Display target
 

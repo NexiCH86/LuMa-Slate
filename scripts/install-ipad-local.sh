@@ -37,7 +37,7 @@ fi
 rm -rf "$BUILD_DIR"
 mkdir -p "$BUILD_DIR"
 
-echo "Building LuMa Slate for iPad"
+echo "Building BOG Note for iPad"
 echo "Apple Team: $TEAM_ID"
 echo "Device:     $DEVICE_ID"
 
@@ -53,13 +53,13 @@ xcodebuild \
   CONFIGURATION_BUILD_DIR="$BUILD_DIR" \
   clean build
 
-APP_PATH="$BUILD_DIR/LuMa Slate.app"
+APP_PATH="$BUILD_DIR/BOG Note.app"
 if [[ ! -d "$APP_PATH" ]]; then
   echo "Signed app was not produced at: $APP_PATH"
   exit 4
 fi
 
-echo "Installing LuMa Slate on the connected iPad..."
+echo "Installing BOG Note on the connected iPad..."
 xcrun devicectl device install app --device "$DEVICE_ID" "$APP_PATH"
 
-echo "LuMa Slate installation completed."
+echo "BOG Note installation completed."

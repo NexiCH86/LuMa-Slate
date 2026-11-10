@@ -9,5 +9,5 @@ function restoreOutside(){if(document.body.classList.contains('np122-full'))retu
 function run(){hideStatus();cleanFullscreen();restoreOutside()}
 let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(run,20)}).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
 document.addEventListener('pointerdown',e=>{if(e.target.closest?.('[data-tool],#nFull,#nFsExit'))setTimeout(run,25)},true);
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();console.info('LuMa Slate Notes UI fix '+V+' ready');
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();console.info('BOG Note Notes UI fix '+V+' ready');
 })();

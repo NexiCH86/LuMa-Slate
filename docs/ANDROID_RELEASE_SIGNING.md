@@ -1,16 +1,16 @@
-# LuMa Slate – Permanent Android Release Signing
+# BOG Note – Permanent Android Release Signing
 
 Status: **mandatory for production Shell 1.0.1+**
 
 ## Policy
 
-LuMa Slate production APKs are release-signed with one long-lived private Android signing identity.
+BOG Note production APKs are release-signed with one long-lived private Android signing identity.
 
 - Never commit the keystore or passwords.
 - Never replace the signing key for normal upgrades.
 - Back up the `.jks` file and passwords in at least two secure locations.
 - GitHub Actions must publish only release-signed APKs.
-- Debug APKs are development-only and are not official LuMa Slate releases.
+- Debug APKs are development-only and are not official BOG Note releases.
 
 ## One-time setup on Master Intel
 
@@ -50,7 +50,7 @@ Official artifact naming:
 
 ## Upgrade contract
 
-Every future native Shell APK must be signed with the same permanent key. This preserves Android's upgrade trust chain so future Shell versions can install over the existing LuMa Slate app without uninstalling it.
+Every future native Shell APK must be signed with the same permanent key. This preserves Android's upgrade trust chain so future Shell versions can install over the existing BOG Note app without uninstalling it.
 
 ## Recovery
 

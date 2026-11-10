@@ -65,4 +65,4 @@ guard let tiff = image.tiffRepresentation,
 let output = URL(fileURLWithPath: CommandLine.arguments[1])
 try FileManager.default.createDirectory(at: output.deletingLastPathComponent(), withIntermediateDirectories: true)
 try png.write(to: output)
-print("Generated LuMa Slate app icon at \(output.path)")
+print("Generated BOG Note app icon at \(output.path)")

@@ -14,4 +14,4 @@ document.addEventListener('pointerdown',e=>{if(e.target.closest?.('[data-tool],[
 document.addEventListener('click',e=>{if(e.target.closest?.('[data-tool],[data-pw],[data-pc],[data-mc]'))schedule()},true);
 document.addEventListener('change',e=>{if(e.target.closest?.('#nStyle,#nMW,#nMO'))schedule()},true);
 let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(isolate,15)}).observe(document.documentElement,{subtree:true,childList:true});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',isolate,{once:true});else isolate();console.info('LuMa Slate strict mode isolation '+V+' ready')})();
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',isolate,{once:true});else isolate();console.info('BOG Note strict mode isolation '+V+' ready')})();

@@ -6,6 +6,6 @@ function hideSummaryPill(){const r=root();if(!r)return;const tools=r.querySelect
 function css(){if(document.getElementById('np1221css'))return;const s=document.createElement('style');s.id='np1221css';s.textContent='[data-np1221-summary="1"]{display:none!important}';document.head.appendChild(s)}
 let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(hideSummaryPill,25)}).observe(document.documentElement,{childList:true,subtree:true,characterData:true});
 document.addEventListener('pointerdown',e=>{if(e.target.closest?.('[data-tool]'))setTimeout(hideSummaryPill,30)},true);
-function boot(){css();hideSummaryPill();console.info('LuMa Slate Notes toolbar cleanup '+V+' ready')}
+function boot(){css();hideSummaryPill();console.info('BOG Note Notes toolbar cleanup '+V+' ready')}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();

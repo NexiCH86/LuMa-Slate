@@ -10,4 +10,4 @@ function css(){if(document.getElementById('np1229css'))return;const s=document.c
 /* Let the original Notes delete handler do the actual mutation/render after explicit confirmation. */
 document.addEventListener('click',e=>{const b=e.target.closest?.('#nDel');if(!b||armed)return;e.preventDefault();e.stopImmediatePropagation();open(b)},true);
 document.addEventListener('pointerdown',e=>{if(e.target.closest?.('[data-tool],[data-pw],[data-pc],[data-mc],#nStyle,#nMW,#nMO'))setTimeout(isolate,20)},true);document.addEventListener('change',e=>{if(e.target.closest?.('#nStyle,#nMW,#nMO'))setTimeout(isolate,20)},true);let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(isolate,20)}).observe(document.documentElement,{subtree:true,childList:true});
-function boot(){css();build();isolate()}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();console.info('LuMa Slate delete modal fix '+V+' ready')})();
+function boot(){css();build();isolate()}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();console.info('BOG Note delete modal fix '+V+' ready')})();
