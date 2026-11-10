@@ -9,10 +9,10 @@ New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 $Keystore = Join-Path $OutputDir "luma-slate-release.jks"
 
 if (Test-Path $Keystore) {
-    throw "Keystore already exists: $Keystore`nRefusing to overwrite the permanent LuMa Slate signing identity."
+    throw "Keystore already exists: $Keystore`nRefusing to overwrite the permanent BOG Note signing identity."
 }
 
-Write-Host "LuMa Slate permanent Android signing identity"
+Write-Host "BOG Note permanent Android signing identity"
 Write-Host ""
 Write-Host "This key signs every future production APK. Keep the .jks and passwords permanently backed up."
 Write-Host "The script will now ask for a strong keystore/key password."
@@ -25,7 +25,7 @@ Write-Host ""
     -keyalg RSA `
     -keysize 4096 `
     -validity 10000 `
-    -dname "CN=LuMa Labs, OU=LuMa Slate, O=LuMa Labs, L=Birr, ST=Aargau, C=CH"
+    -dname "CN=LuMa Labs, OU=BOG Note, O=LuMa Labs, L=Birr, ST=Aargau, C=CH"
 
 if ($LASTEXITCODE -ne 0) {
     throw "keytool failed with exit code $LASTEXITCODE"

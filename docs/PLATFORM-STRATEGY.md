@@ -1,8 +1,8 @@
-# LuMa Slate Platform Strategy
+# BOG Note Platform Strategy
 
 Status: verbindliche Produktarchitektur
 
-LuMa Slate wird als plattformübergreifender Workspace entwickelt. BOOX ist die erste Referenzplattform, aber der gemeinsame Produktkern darf nicht dauerhaft an BOOX oder Android gekoppelt werden.
+BOG Note wird als plattformübergreifender Workspace entwickelt. BOOX ist die erste Referenzplattform, aber der gemeinsame Produktkern darf nicht dauerhaft an BOOX oder Android gekoppelt werden.
 
 ## Zielplattformen
 
@@ -13,7 +13,7 @@ LuMa Slate wird als plattformübergreifender Workspace entwickelt. BOOX ist die 
 
 ## Architekturprinzip
 
-LuMa Slate Core enthält plattformunabhängige UI, Navigation, Library-Metadaten, Reading State, Annotation-Datenmodell, Notes, Work, LuMa AI Context, Sync-State und Einstellungen.
+BOG Note Core enthält plattformunabhängige UI, Navigation, Library-Metadaten, Reading State, Annotation-Datenmodell, Notes, Work, LuMa AI Context, Sync-State und Einstellungen.
 
 Native Bridges kapseln gerätespezifische Fähigkeiten:
 
@@ -25,7 +25,7 @@ Native Bridges kapseln gerätespezifische Fähigkeiten:
 
 - E-Ink: hoher Kontrast, minimale Animationen, klare Flächen, E-Ink-taugliche Farben und Refresh-schonende Interaktion
 - Android Color: volle LuMa Labs Farbwelt, flüssigere Interaktionen, Multitasking und DeX
-- iPadOS: iPad-optimierte Touch-/Pencil-Interaktion bei gleichem LuMa Slate Produktmodell
+- iPadOS: iPad-optimierte Touch-/Pencil-Interaktion bei gleichem BOG Note Produktmodell
 
 ## V1.0-Regel
 

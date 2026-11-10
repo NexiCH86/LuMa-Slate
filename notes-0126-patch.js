@@ -18,5 +18,5 @@ function enhance(){css();removeHint()}
 document.addEventListener('pointerdown',intercept,true);document.addEventListener('pointerup',blockLegacyPointerUp,true);
 new MutationObserver(()=>{removeHint()}).observe(document.documentElement,{childList:true,subtree:true});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enhance,{once:true});else enhance();
-console.info(`LuMa Slate Notes text input repair ${V} ready`);
+console.info(`BOG Note Notes text input repair ${V} ready`);
 })();

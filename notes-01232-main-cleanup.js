@@ -27,4 +27,4 @@ function clean(){
 }
 let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(clean,25)}).observe(document.documentElement,{subtree:true,childList:true,characterData:true});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',clean,{once:true});else clean();
-console.info('LuMa Slate Notes main cleanup '+V+' ready');})();
+console.info('BOG Note Notes main cleanup '+V+' ready');})();

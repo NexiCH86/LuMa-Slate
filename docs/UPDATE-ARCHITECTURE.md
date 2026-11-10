@@ -1,15 +1,15 @@
-# LuMa Slate Update Architecture
+# BOG Note Update Architecture
 
 ## Goal
 
-Install the Android APK once and deliver normal LuMa Slate UI releases over the air without reinstalling the APK.
+Install the Android APK once and deliver normal BOG Note UI releases over the air without reinstalling the APK.
 
 ## Layer model
 
 ### 1. Android Shell
 The native APK contains only the long-lived device bridge: WebView/app shell, secure local storage, file permissions, BOOX integration, update bootstrap and native APIs.
 
-### 2. LuMa Slate UI
+### 2. BOG Note UI
 The workspace UI is versioned independently and can be updated from the configured release endpoint. Normal releases should happen here.
 
 ### 3. User Data
@@ -17,12 +17,12 @@ Documents, note metadata, settings, project state and AI memory are stored separ
 
 ## Update flow
 
-1. LuMa Slate starts.
+1. BOG Note starts.
 2. The installed UI checks `update-manifest.json` with cache disabled.
-3. If a newer compatible stable UI exists, LuMa Slate displays an E-Ink-friendly update banner.
+3. If a newer compatible stable UI exists, BOG Note displays an E-Ink-friendly update banner.
 4. The user starts the update.
 5. The latest UI assets are downloaded and cached.
-6. LuMa Slate reloads into the new UI version.
+6. BOG Note reloads into the new UI version.
 7. User data remains untouched.
 
 ## Compatibility guard

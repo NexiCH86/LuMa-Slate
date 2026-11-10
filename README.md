@@ -1,6 +1,6 @@
-# LuMa Slate
+# BOG Note
 
-LuMa Slate is a portrait-first E-Ink engineering workspace for the ONYX BOOX Tab Ultra C Pro.
+BOG Note is a portrait-first E-Ink engineering workspace for the ONYX BOOX Tab Ultra C Pro.
 
 ## Target device
 
@@ -15,7 +15,7 @@ LuMa Slate is a portrait-first E-Ink engineering workspace for the ONYX BOOX Tab
 
 ### Block 01 – Workspace shell & dashboard
 
-- LuMa Slate Home dashboard
+- BOG Note Home dashboard
 - Portrait-only layout
 - E-Ink friendly contrast and restrained color use
 - Large touch targets
@@ -65,13 +65,13 @@ LuMa Slate is a portrait-first E-Ink engineering workspace for the ONYX BOOX Tab
 - E-Ink friendly in-app update banner
 - Service Worker cache migration between UI versions
 - User data is architecturally separated from UI releases
-- Goal: install the APK once and deliver ordinary LuMa Slate releases OTA
+- Goal: install the APK once and deliver ordinary BOG Note releases OTA
 
 See `docs/UPDATE-ARCHITECTURE.md` for the complete update model.
 
 ## Update model
 
-The future Android APK will be a long-lived native shell. Normal LuMa Slate development happens in the independently updateable UI layer. Library, Reader, Work, Notes, AI workflows and most design/function changes are intended to update without reinstalling the APK.
+The future Android APK will be a long-lived native shell. Normal BOG Note development happens in the independently updateable UI layer. Library, Reader, Work, Notes, AI workflows and most design/function changes are intended to update without reinstalling the APK.
 
 A new APK can still be required when the native Android/BOOX bridge itself must change, for example new Android permissions, device APIs, signing/SDK requirements or new native BOOX integrations. The update architecture deliberately keeps that native layer small so these APK updates should be rare.
 
@@ -105,4 +105,4 @@ The prototype deliberately stays framework-free while we validate it on the real
 - Minimise animations and translucent effects.
 - Use black/white contrast for information; color only as an accent.
 - Avoid dense small controls.
-- Preserve BOOX/Android underneath; LuMa Slate is an app/workspace layer, not a custom ROM.
+- Preserve BOOX/Android underneath; BOG Note is an app/workspace layer, not a custom ROM.

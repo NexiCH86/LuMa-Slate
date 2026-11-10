@@ -30,5 +30,5 @@ body.np122-full #np122 .np122-fsbar button{min-width:44px!important;min-height:4
 function run(){css();hideNormalStatus();applyFullscreen()}
 let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(run,15)}).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
 document.addEventListener('pointerdown',e=>{if(e.target.closest?.('#nFull,#nFsExit,[data-tool]'))setTimeout(run,20)},true);
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();console.info('LuMa Slate Notes fullscreen correction '+V+' ready');
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();console.info('BOG Note Notes fullscreen correction '+V+' ready');
 })();

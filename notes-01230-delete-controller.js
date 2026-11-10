@@ -12,4 +12,4 @@ function css(){if(document.getElementById('np1230css'))return;const s=document.c
 /* BOOX-safe: intercept the physical press before any legacy click handler can navigate or swallow it. */
 document.addEventListener('pointerdown',e=>{if(!e.target.closest?.('#nDel'))return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation?.();open()},true);
 document.addEventListener('click',e=>{if(!e.target.closest?.('#nDel'))return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation?.();open()},true);
-function boot(){css();build()}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();console.info('LuMa Slate delete controller '+V+' ready')})();
+function boot(){css();build()}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();console.info('BOG Note delete controller '+V+' ready')})();
