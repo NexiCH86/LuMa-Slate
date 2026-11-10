@@ -74,11 +74,11 @@ jobs:
             exit 1
           fi
           "$APKSIGNER" verify --verbose --print-certs "$APK"
-          cp "$APK" BOG-Note-Shell-1.1.2-release.apk
+          cp "$APK" BOG-Note-Shell-1.1.3-release.apk
 
       - name: Upload release APK
         uses: actions/upload-artifact@v4
         with:
-          name: BOG-Note-Shell-1.1.2-release
-          path: BOG-Note-Shell-1.1.2-release.apk
+          name: BOG-Note-Shell-1.1.3-release
+          path: BOG-Note-Shell-1.1.3-release.apk
           retention-days: 90

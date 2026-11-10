@@ -6,7 +6,7 @@
         <item name="android:navigationBarColor">@color/luma_off_white</item>
         <item name="android:windowBackground">@color/luma_off_white</item>
         <item name="android:windowSplashScreenBackground">@color/luma_off_white</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/luma_signet</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/bog_note_signet</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@color/luma_off_white</item>
     </style>
 </resources>

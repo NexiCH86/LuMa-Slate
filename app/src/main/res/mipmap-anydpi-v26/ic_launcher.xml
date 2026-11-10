@@ -1,5 +1,5 @@
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-    <background android:drawable="@color/luma_graphite" />
-    <foreground android:drawable="@drawable/luma_signet" />
-    <monochrome android:drawable="@drawable/luma_signet" />
+    <background android:drawable="@color/bog_graphite" />
+    <foreground android:drawable="@drawable/bog_note_signet" />
+    <monochrome android:drawable="@drawable/bog_note_signet" />
 </adaptive-icon>

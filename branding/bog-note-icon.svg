@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="BOG Note">
+  <rect width="1024" height="1024" fill="#161F22"/>
+  <rect x="36" y="36" width="952" height="952" rx="220" fill="#1C282C"/>
+  <path fill="#0091BA" fill-rule="evenodd" d="M150,200 H400 L460,260 V420 L425,455 L470,500 V764 L410,824 H150 Z M220,265 H375 L395,285 V400 L375,420 H220 Z M220,490 H390 L405,505 V739 L385,759 H220 Z"/>
+  <path fill="#0091BA" d="M560,200 H630 V824 H560 Z"/>
+  <path fill="#33A7CB" d="M804,200 H874 V824 H804 Z"/>
+  <path fill="#BCA95B" d="M560,200 H642 L874,742 V824 H792 L560,282 Z"/>
+</svg>

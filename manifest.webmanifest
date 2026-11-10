@@ -1,6 +1,6 @@
 {
   "name": "BOG Note",
-  "short_name": "Slate",
+  "short_name": "BOG Note",
   "description": "E-Ink Engineering Workspace for BOOX Tab Ultra C Pro",
   "start_url": "./",
   "display": "standalone",
